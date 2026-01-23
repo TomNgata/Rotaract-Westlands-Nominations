@@ -8,20 +8,67 @@ import { CommitteePortal } from './components/CommitteePortal';
 import { POSITIONS, MOCK_MEMBERS } from './constants';
 import { Nomination, Member } from './types';
 
-// Initial state for demonstration
-const INITIAL_NOMINATIONS: Nomination[] = [
-  { id: 'n1', nominatorId: 'm2', nomineeId: 'm1', positionId: 'sec', timestamp: Date.now() - 86400000, isSelfNomination: false, reviewStatus: 'APPROVED' },
-  { id: 'n2', nominatorId: 'm3', nomineeId: 'm1', positionId: 'sec', timestamp: Date.now() - 43200000, isSelfNomination: false, reviewStatus: 'PENDING' },
-  { id: 'n3', nominatorId: 'm4', nomineeId: 'm2', positionId: 'trs', timestamp: Date.now() - 100000, isSelfNomination: false, reviewStatus: 'APPROVED' },
-  { id: 'n4', nominatorId: 'm5', nomineeId: 'm2', positionId: 'trs', timestamp: Date.now() - 50000, isSelfNomination: false, reviewStatus: 'PENDING' },
-  { id: 'n5', nominatorId: 'm1', nomineeId: 'm3', positionId: 'pn', timestamp: Date.now() - 10000, isSelfNomination: false, reviewStatus: 'PENDING' },
-];
+import { supabase } from './services/supabaseClient';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
-  const [nominations, setNominations] = useState<Nomination[]>(INITIAL_NOMINATIONS);
+  const [nominations, setNominations] = useState<Nomination[]>([]);
+  const [members, setMembers] = useState<Member[]>([]);
   const [showNominationModal, setShowNominationModal] = useState(false);
   const [currentUser, setCurrentUser] = useState<Member | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Fetch initial data
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        // Fetch Members
+        const { data: membersData, error: membersError } = await supabase
+          .from('members')
+          .select('*');
+
+        if (membersError) throw membersError;
+
+        const mappedMembers: Member[] = (membersData || []).map(m => ({
+          id: m.id,
+          name: m.full_name,
+          rotaryId: m.rotary_id,
+          email: m.email || '',
+          phone: m.phone_number || '',
+          isGoodStanding: m.is_good_standing,
+          role: m.role as any
+        }));
+        setMembers(mappedMembers);
+
+        // Fetch Nominations
+        const { data: nomsData, error: nomsError } = await supabase
+          .from('nominations')
+          .select('*');
+
+        if (nomsError) throw nomsError;
+
+        const mappedNoms: Nomination[] = (nomsData || []).map(n => ({
+          id: n.id,
+          nominatorId: n.nominator_id,
+          nomineeId: n.nominee_id,
+          positionId: n.position_id,
+          statement: n.statement,
+          timestamp: new Date(n.created_at).getTime(),
+          isSelfNomination: n.is_self_nomination,
+          reviewStatus: n.review_status as any
+        }));
+        setNominations(mappedNoms);
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleLogin = (user: Member) => {
     setCurrentUser(user);
@@ -33,23 +80,60 @@ export default function App() {
     setActiveTab('overview');
   };
 
-  const handleAddNomination = useCallback((newNom: Partial<Nomination>) => {
+  const handleAddNomination = useCallback(async (newNom: Partial<Nomination>) => {
     if (!currentUser) return;
-    
-    const nomination: Nomination = {
-      ...newNom,
-      id: `n-${Date.now()}`,
-      nominatorId: currentUser.id,
-      timestamp: Date.now(),
-      reviewStatus: 'PENDING',
-    } as Nomination;
 
-    setNominations(prev => [...prev, nomination]);
-    setShowNominationModal(false);
+    try {
+      const dbNomination = {
+        nominator_id: currentUser.id,
+        nominee_id: newNom.nomineeId,
+        position_id: newNom.positionId,
+        statement: newNom.statement,
+        is_self_nomination: newNom.isSelfNomination,
+        review_status: 'PENDING'
+      };
+
+      const { data, error } = await supabase
+        .from('nominations')
+        .insert(dbNomination)
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      if (data) {
+        const mappedNom: Nomination = {
+          id: data.id,
+          nominatorId: data.nominator_id,
+          nomineeId: data.nominee_id,
+          positionId: data.position_id,
+          statement: data.statement,
+          timestamp: new Date(data.created_at).getTime(),
+          isSelfNomination: data.is_self_nomination,
+          reviewStatus: data.review_status as any
+        };
+        setNominations(prev => [...prev, mappedNom]);
+      }
+    } catch (error) {
+      console.error("Error submitting nomination:", error);
+      alert("Failed to submit nomination. Please try again.");
+    }
   }, [currentUser]);
 
-  const handleReviewNomination = useCallback((id: string, status: 'APPROVED' | 'REJECTED') => {
-    setNominations(prev => prev.map(n => n.id === id ? { ...n, reviewStatus: status } : n));
+  const handleReviewNomination = useCallback(async (id: string, status: 'APPROVED' | 'REJECTED') => {
+    try {
+      const { error } = await supabase
+        .from('nominations')
+        .update({ review_status: status })
+        .eq('id', id);
+
+      if (error) throw error;
+
+      setNominations(prev => prev.map(n => n.id === id ? { ...n, reviewStatus: status } : n));
+    } catch (error) {
+      console.error("Error updating status:", error);
+      alert("Failed to update status.");
+    }
   }, []);
 
   if (!currentUser) {
@@ -60,10 +144,10 @@ export default function App() {
     switch (activeTab) {
       case 'overview':
         return (
-          <DashboardOverview 
-            nominations={nominations} 
-            positions={POSITIONS} 
-            members={MOCK_MEMBERS} 
+          <DashboardOverview
+            nominations={nominations}
+            positions={POSITIONS}
+            members={members}
             onAddNomination={() => setShowNominationModal(true)}
           />
         );
@@ -75,8 +159,8 @@ export default function App() {
             {myNoms.length === 0 ? (
               <div className="text-center py-20 bg-slate-900 rounded-xl border border-dashed border-slate-800">
                 <p className="text-slate-500 mb-6">You haven't submitted any nominations yet.</p>
-                <button 
-                  onClick={() => setShowNominationModal(true)} 
+                <button
+                  onClick={() => setShowNominationModal(true)}
                   className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg font-bold transition-all"
                 >
                   Submit Your First Nomination
@@ -85,7 +169,7 @@ export default function App() {
             ) : (
               <div className="grid gap-4">
                 {myNoms.map(n => {
-                  const nominee = MOCK_MEMBERS.find(m => m.id === n.nomineeId);
+                  const nominee = members.find(m => m.id === n.nomineeId);
                   const pos = POSITIONS.find(p => p.id === n.positionId);
                   return (
                     <div key={n.id} className="bg-slate-900 p-6 rounded-xl border border-slate-800 shadow-sm flex justify-between items-center group hover:border-slate-700 transition-all">
@@ -93,11 +177,10 @@ export default function App() {
                         <div className="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-1">{pos?.title}</div>
                         <h4 className="text-lg font-bold text-slate-100">{nominee?.name}</h4>
                         <div className="flex items-center space-x-2 mt-2">
-                          <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${
-                            n.reviewStatus === 'APPROVED' ? 'bg-emerald-500/10 text-emerald-400' :
+                          <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${n.reviewStatus === 'APPROVED' ? 'bg-emerald-500/10 text-emerald-400' :
                             n.reviewStatus === 'REJECTED' ? 'bg-red-500/10 text-red-400' :
-                            'bg-amber-500/10 text-amber-400'
-                          }`}>
+                              'bg-amber-500/10 text-amber-400'
+                            }`}>
                             {n.reviewStatus}
                           </span>
                         </div>
@@ -105,9 +188,6 @@ export default function App() {
                       </div>
                       <div className="text-right">
                         <div className="text-[10px] text-slate-500 font-mono">SUBMITTED: {new Date(n.timestamp).toLocaleDateString()}</div>
-                        {n.reviewStatus === 'PENDING' && (
-                          <button className="text-red-400 text-xs font-bold hover:text-red-300 mt-4 transition-colors">Withdraw</button>
-                        )}
                       </div>
                     </div>
                   );
@@ -126,17 +206,17 @@ export default function App() {
           <div className="space-y-6 animate-in fade-in duration-500">
             <h2 className="text-2xl font-bold text-slate-100">Candidate Pool</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {MOCK_MEMBERS.map(m => {
+              {members.map(m => {
                 const count = candidateMap[m.id] || 0;
                 const isQualified = count >= 2;
                 return (
                   <div key={m.id} className="bg-slate-900 rounded-2xl border border-slate-800 shadow-sm overflow-hidden group hover:border-slate-700 transition-all">
                     <div className="h-24 bg-gradient-to-br from-blue-900/40 to-slate-900 relative border-b border-slate-800">
-                       <div className="absolute -bottom-6 left-6 w-16 h-16 bg-slate-900 rounded-full p-1 shadow-xl border border-slate-800">
-                          <div className="w-full h-full bg-blue-600/20 rounded-full flex items-center justify-center text-blue-400 font-bold text-xl border border-blue-500/20">
-                            {m.name.charAt(0)}
-                          </div>
-                       </div>
+                      <div className="absolute -bottom-6 left-6 w-16 h-16 bg-slate-900 rounded-full p-1 shadow-xl border border-slate-800">
+                        <div className="w-full h-full bg-blue-600/20 rounded-full flex items-center justify-center text-blue-400 font-bold text-xl border border-blue-500/20">
+                          {m.name.charAt(0)}
+                        </div>
+                      </div>
                     </div>
                     <div className="pt-8 p-6 space-y-4">
                       <div>
@@ -150,9 +230,8 @@ export default function App() {
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest ${
-                          isQualified ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                        }`}>
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest ${isQualified ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                          }`}>
                           {isQualified ? 'Election Ready' : 'Pending Minimum'}
                         </span>
                       </div>
@@ -166,9 +245,9 @@ export default function App() {
       case 'administration':
         if (currentUser.role !== 'COMMITTEE') return <div className="p-10 text-center text-red-400 font-bold">Unauthorized Access</div>;
         return (
-          <CommitteePortal 
+          <CommitteePortal
             nominations={nominations}
-            members={MOCK_MEMBERS}
+            members={members}
             positions={POSITIONS}
             onReview={handleReviewNomination}
           />
@@ -179,18 +258,18 @@ export default function App() {
   };
 
   return (
-    <Layout 
-      activeTab={activeTab} 
-      setActiveTab={setActiveTab} 
+    <Layout
+      activeTab={activeTab}
+      setActiveTab={setActiveTab}
       currentUser={currentUser}
       onLogout={handleLogout}
     >
       {renderContent()}
-      
+
       {showNominationModal && (
-        <NominationForm 
+        <NominationForm
           onClose={() => setShowNominationModal(false)}
-          members={MOCK_MEMBERS}
+          members={members}
           positions={POSITIONS}
           currentUser={currentUser}
           onSubmit={handleAddNomination}

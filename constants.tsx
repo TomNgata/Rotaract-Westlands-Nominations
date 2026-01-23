@@ -2,24 +2,27 @@
 import React from 'react';
 import { Position, PositionCategory, Member } from './types';
 
+export const ELECTION_SCHEDULE = {
+  OPEN_DATE: '2026-01-23T19:00:00+03:00', // Today 7pm
+  CLOSE_DATE: '2026-01-25T19:00:00+03:00', // 48 hours later Sunday 7pm
+};
+
 export const POSITIONS: Position[] = [
-  { id: 'sec', title: 'Secretary', category: PositionCategory.EXECUTIVE, description: 'Maintain records and documentation.', isElected: true, status: 'OPEN' },
-  { id: 'trs', title: 'Treasurer', category: PositionCategory.EXECUTIVE, description: 'Financial management and reporting.', isElected: true, status: 'OPEN' },
-  { id: 'csd', title: 'Club Service Director', category: PositionCategory.DIRECTOR, description: 'Welfare and engaging meetings.', isElected: true, status: 'OPEN' },
-  { id: 'com', title: 'Community Service Director', category: PositionCategory.DIRECTOR, description: 'Identify and lead sustainable projects.', isElected: true, status: 'OPEN' },
-  { id: 'pdd', title: 'Professional Development Director', category: PositionCategory.DIRECTOR, description: 'Member learning and guest speakers.', isElected: true, status: 'OPEN' },
-  { id: 'isd', title: 'International Service Director', category: PositionCategory.DIRECTOR, description: 'Global club partnerships.', isElected: true, status: 'OPEN' },
-  { id: 'mem', title: 'Membership Director', category: PositionCategory.DIRECTOR, description: 'Recruitment and retention.', isElected: true, status: 'OPEN' },
-  { id: 'prd', title: 'Public Relations Director', category: PositionCategory.DIRECTOR, description: 'Visibility and branding.', isElected: true, status: 'OPEN' },
-  { id: 'pn', title: 'President-Nominee', category: PositionCategory.SUCCESSION, description: 'Future President (2028/29).', isElected: true, status: 'OPEN' },
-  { id: 'pnd', title: 'President-Nominee Designate', category: PositionCategory.SUCCESSION, description: 'Future President (2029/30).', isElected: true, status: 'OPEN' }
+  // Executive Board & Directors
+  { id: 'sec', title: 'Secretary', category: PositionCategory.EXECUTIVE, description: 'Maintains minutes, membership records, and coordinates club documentation.', isElected: true, status: 'OPEN' },
+  { id: 'trs', title: 'Treasurer/Finance Director', category: PositionCategory.EXECUTIVE, description: 'Manages club funds, collects dues, and reports on financial health.', isElected: true, status: 'OPEN' },
+  { id: 'com_svc', title: 'Community Service/Projects Director', category: PositionCategory.DIRECTOR, description: 'Responsible for community needs assessments and developing sustainable project plans.', isElected: true, status: 'OPEN' },
+  { id: 'club_svc', title: 'Club Service & PLD Director', category: PositionCategory.DIRECTOR, description: 'Focuses on member engagement, welfare, and professional/leadership development (combined for synergy).', isElected: true, status: 'OPEN' },
+  { id: 'mem', title: 'Membership Director', category: PositionCategory.DIRECTOR, description: 'Tasked with recruitment, onboarding, and tracking membership data to sustain growth.', isElected: true, status: 'OPEN' },
+  { id: 'pr', title: 'Public Relations and Communications Director', category: PositionCategory.DIRECTOR, description: 'Enhances club visibility and ensures adherence to Rotary branding and ethical standards.', isElected: true, status: 'OPEN' },
+  { id: 'fund_trf', title: 'Fundraising, TRF Director & SAA', category: PositionCategory.DIRECTOR, description: 'Manages financial needs, corporate partnerships, and The Rotary Foundation (TRF) mobilization while overseeing meeting order.', isElected: true, status: 'OPEN' },
+  { id: 'intl', title: 'International Service Director', category: PositionCategory.DIRECTOR, description: 'Establishes and maintains relationships with other local and international Rotary/Rotaract clubs.', isElected: true, status: 'OPEN' },
+  { id: 'new_gen', title: 'New Generations Director', category: PositionCategory.DIRECTOR, description: 'Supports current Interact clubs and explores chartering new ones.', isElected: true, status: 'OPEN' },
+  { id: 'gov_dei', title: 'Governance, Ethics, and DEI Director', category: PositionCategory.DIRECTOR, description: 'Ensures compliance with bylaws and implements Diversity, Equity, and Inclusion initiatives (combined for consistent policy enforcement).', isElected: true, status: 'OPEN' },
+
+  // Succession
+  { id: 'pn', title: 'President Nominee (PN)', category: PositionCategory.SUCCESSION, description: 'To take over as President in the 2028/2029 year.', isElected: true, status: 'OPEN' },
+  { id: 'pnd', title: 'President Nominee Designate (PND)', category: PositionCategory.SUCCESSION, description: 'To take over as President in the 2029/2030 year.', isElected: true, status: 'OPEN' }
 ];
 
-export const MOCK_MEMBERS: Member[] = [
-  { id: 'm1', name: 'John Doe', rotaryId: '1234567', email: 'john@rotaract.org', phone: '+254700000001', isGoodStanding: true, role: 'MEMBER' },
-  { id: 'm2', name: 'Jane Smith', rotaryId: '2345678', email: 'jane@rotaract.org', phone: '+254700000002', isGoodStanding: true, role: 'MEMBER' },
-  { id: 'm3', name: 'Peter Omondi', rotaryId: '3456789', email: 'peter@rotaract.org', phone: '+254700000003', isGoodStanding: true, role: 'MEMBER' },
-  { id: 'm4', name: 'Mary Wanjiru', rotaryId: '4567890', email: 'mary@rotaract.org', phone: '+254700000004', isGoodStanding: true, role: 'MEMBER' },
-  { id: 'm5', name: 'Sarah Njeri', rotaryId: '5678901', email: 'sarah@rotaract.org', phone: '+254700000005', isGoodStanding: true, role: 'MEMBER' },
-  { id: 'm6', name: 'David Kamau', rotaryId: '6789012', email: 'david@rotaract.org', phone: '+254700000006', isGoodStanding: true, role: 'COMMITTEE' }
-];
+export const MOCK_MEMBERS: Member[] = [];

@@ -3,13 +3,27 @@ import { GoogleGenAI } from "@google/genai";
 import { Nomination, Position, Member } from "../types";
 
 export class GeminiService {
-  private ai: GoogleGenAI;
+  private ai: GoogleGenAI | null = null;
+  private apiKey: string;
 
   constructor() {
-    this.ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+    this.apiKey = import.meta.env.VITE_GEMINI_API_KEY || '';
+  }
+
+  private getClient(): GoogleGenAI | null {
+    if (!this.apiKey) return null;
+    if (!this.ai) {
+      this.ai = new GoogleGenAI({ apiKey: this.apiKey });
+    }
+    return this.ai;
   }
 
   async getDashboardInsights(nominations: Nomination[], positions: Position[], members: Member[]) {
+    const client = this.getClient();
+    if (!client) {
+      return "AI Insights unavailable. Please configure VITE_GEMINI_API_KEY in your .env file.";
+    }
+
     const prompt = `
       You are an Elections Committee AI assistant for Rotaract Club of Westlands.
       Current Data:
@@ -27,14 +41,14 @@ export class GeminiService {
     `;
 
     try {
-      const response = await this.ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+      const response = await client.models.generateContent({
+        model: "gemini-2.0-flash",
         contents: prompt,
       });
       return response.text;
     } catch (error) {
       console.error("Gemini API Error:", error);
-      return "Unable to generate insights at this time. Please check your data manually.";
+      return "Unable to generate insights at this time. Please check your network and API quota.";
     }
   }
 }

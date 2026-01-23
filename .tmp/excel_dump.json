@@ -1,0 +1,3388 @@
+{
+  "c:\\Users\\TOM NGATA\\Documents\\AI Automations\\Rotaract_Westlands\\Elections_2026\\Nominations\\excel data\\Rotaract Club Membership List Update.xlsx": [
+    {
+      "A": "Full Name",
+      "B": "Rotary ID",
+      "C": "Role",
+      "D": "Year Joined",
+      "E": "Email Address",
+      "F": "Phone Number",
+      "G": null,
+      "H": null,
+      "I": null,
+      "J": null,
+      "K": null,
+      "L": null,
+      "M": null,
+      "N": null,
+      "O": null,
+      "P": null,
+      "Q": null,
+      "R": null,
+      "S": null,
+      "T": null,
+      "U": null,
+      "V": null,
+      "W": null,
+      "X": null,
+      "Y": null,
+      "Z": null
+    },
+    {
+      "A": "Cindy Amoit",
+      "B": "1.2284398E7",
+      "C": "Member",
+      "D": "2025.0",
+      "E": "cindyamoit@gmail.com",
+      "F": "+254 746 915970"
+    },
+    {
+      "A": "Lyon Anemba",
+      "B": "1.228542E7",
+      "C": "Member",
+      "D": "2025.0",
+      "E": "anembaleon@gmail.com",
+      "F": "+254 710 253180"
+    },
+    {
+      "A": "Betty Baya",
+      "B": "1.1754551E7",
+      "C": "Member",
+      "D": "2025.0",
+      "E": "bayakemunto12@gmail.com",
+      "F": "+254 0796515363"
+    },
+    {
+      "A": "Whitney Chao",
+      "B": "1.241195E7",
+      "C": "Member",
+      "D": "2025.0",
+      "E": "whitneychao.m@gmail.com",
+      "F": "+254 716488119"
+    },
+    {
+      "A": "Annette Djaling",
+      "B": "1.2072918E7",
+      "C": "Member",
+      "D": "2024.0",
+      "E": "annettedjaling22@gmail.com",
+      "F": "+254 740379844"
+    },
+    {
+      "A": "Eva Gaicugi",
+      "B": "1.1787419E7",
+      "C": "Club President",
+      "D": "2025.0",
+      "E": "evagerald20@gmail.com",
+      "F": "+254 0711274460"
+    },
+    {
+      "A": "Victor Muthumbi Kabugu",
+      "B": "1.2072931E7",
+      "C": "Member",
+      "D": "2024.0",
+      "E": "muthumbikabugu@yahoo.com",
+      "F": "+254 705 914025"
+    },
+    {
+      "A": "Lisbeth Kamau",
+      "B": "1.2284401E7",
+      "C": "Member",
+      "D": "2025.0",
+      "E": "kamaulisbeth@gmail.com",
+      "F": "+254 718530545"
+    },
+    {
+      "A": "Perpetual Gathoni Kamau",
+      "B": "1.0376692E7",
+      "C": "Member",
+      "D": "2025.0",
+      "E": "perpsgatkamau@gmail.com",
+      "F": "+254 711481194"
+    },
+    {
+      "A": "Morgan Kibet",
+      "B": "1.2051768E7",
+      "C": "Member",
+      "D": "2025.0",
+      "E": "kibetmorgan3@gmail.com",
+      "F": "+254 0704695893"
+    },
+    {
+      "A": "Ashley Wambui Kihonge",
+      "B": "1.1157798E7",
+      "C": "Member",
+      "D": "2024.0",
+      "E": "ashleykihonge@gmail.com",
+      "F": "N/A"
+    },
+    {
+      "A": "Louis Kimani",
+      "B": "1.2301917E7",
+      "C": "Member",
+      "D": "2025.0",
+      "E": "kimanilouis5@gmail.com",
+      "F": "+254 791389776"
+    },
+    {
+      "A": "Whitney Kimutai",
+      "B": "1.198299E7",
+      "C": "Treasurer",
+      "D": "2025.0",
+      "E": "kimutaiwhitney@gmail.com",
+      "F": "+254 740832123"
+    },
+    {
+      "A": "Victoria Koba",
+      "B": "1.1787423E7",
+      "C": "Member",
+      "D": "2023.0",
+      "E": "victoria.main100@gmail.com",
+      "F": "+254 0721969774"
+    },
+    {
+      "A": "Lynn Machua",
+      "B": "1.1771312E7",
+      "C": "Club Foundation Chair",
+      "D": "2025.0",
+      "E": "lynnmachuamark@gmail.com",
+      "F": "+254 0723760305"
+    },
+    {
+      "A": "Sharon Makena",
+      "B": "1.1787414E7",
+      "C": "Member",
+      "D": "2023.0",
+      "E": "Makenamburugu9@gmail.com",
+      "F": "+254 0799595537"
+    },
+    {
+      "A": "Nelson Mandela",
+      "B": "1.1787424E7",
+      "C": "Member",
+      "D": "2023.0",
+      "E": "nomandela8@gmail.com",
+      "F": "+254 0721965137"
+    },
+    {
+      "A": "Edita Marion",
+      "B": "1.1787416E7",
+      "C": "Club Secretary",
+      "D": "2025.0",
+      "E": "editamarion111@gmail.com",
+      "F": "+254 0791365479"
+    },
+    {
+      "A": "Sano Mashako",
+      "B": "1.2285338E7",
+      "C": "Member",
+      "D": "2025.0",
+      "E": "sanomashako@gmail.com",
+      "F": "+254 787976867"
+    },
+    {
+      "A": "Carol Muriithi",
+      "B": "1.2411955E7",
+      "C": "Member",
+      "D": "2025.0",
+      "E": "cwmuriithi20@gmail.com",
+      "F": "+254 717887675"
+    },
+    {
+      "A": "Leone Mutahi",
+      "B": "1.2072937E7",
+      "C": "Club Vice President",
+      "D": "2025.0",
+      "E": "leonmutahi@gmail.com",
+      "F": "+254 726 662887"
+    },
+    {
+      "A": "Joy Muthoga",
+      "B": "1.1787422E7",
+      "C": "Honorary",
+      "D": "2024.0",
+      "E": "joymuthoga@gmail.com",
+      "F": "+254 0704000355"
+    },
+    {
+      "A": "Victoria Muthoni",
+      "B": "1.0417555E7",
+      "C": "Member",
+      "D": "2025.0",
+      "E": "waiyegovictoria@gmail.com",
+      "F": "+254 704432797"
+    },
+    {
+      "A": "Esther Muthoni Nderitu",
+      "B": "1.2072922E7",
+      "C": "RYL Contact",
+      "D": "2025.0",
+      "E": "esthernderitu68@gmail.com",
+      "F": "+254 748039826"
+    },
+    {
+      "A": "Thomas Ngata",
+      "B": "1.1509053E7",
+      "C": "Learning Facilitator",
+      "D": "2025.0",
+      "E": "tom.ngata@gmail.com",
+      "F": "N/A"
+    },
+    {
+      "A": "Lesley Nabwire Nyongesa",
+      "B": "1.064528E7",
+      "C": "Club Membership Chair",
+      "D": "2025.0",
+      "E": "lesleynabwire6@gmail.com",
+      "F": "N/A"
+    },
+    {
+      "A": "Trizer Odhiambo",
+      "B": "1.2411944E7",
+      "C": "Member",
+      "D": "2025.0",
+      "E": "trizerodhiambo51@gmail.com",
+      "F": "+254 704072059"
+    },
+    {
+      "A": "Diana Achieng Okech",
+      "B": "1.0831676E7",
+      "C": "Member",
+      "D": "2025.0",
+      "E": "dianasharong@gmail.com",
+      "F": "+254 712114554"
+    },
+    {
+      "A": "Anthony Ejakait Onyain",
+      "B": "1.1900704E7",
+      "C": "Member",
+      "D": "2023.0",
+      "E": "onyainantony1993@gmail.com",
+      "F": "+254 701283762"
+    },
+    {
+      "A": "David Aqwiri Onyango",
+      "B": "1.0675908E7",
+      "C": "Rotaract Advisor",
+      "D": "2025.0",
+      "E": "aqdave61@gmail.com",
+      "F": "N/A"
+    },
+    {
+      "A": "Mildred Otaba Otaba",
+      "B": "1.0535476E7",
+      "C": "Public Image Chair",
+      "D": "2025.0",
+      "E": "mildredotaba@gmail.com",
+      "F": "+254 0716343679"
+    },
+    {
+      "A": "Fiona Otieno",
+      "B": "1.2284228E7",
+      "C": "Member",
+      "D": "2025.0",
+      "E": "otienofiona3@gmail.com",
+      "F": "+254 798023154"
+    },
+    {
+      "A": "Moureen Owino",
+      "B": "1.2285432E7",
+      "C": "Member",
+      "D": "2025.0",
+      "E": "moureenowino@gmail.com",
+      "F": "+254 708 412499"
+    },
+    {
+      "A": "Ian Walter Sikobe",
+      "B": "1.2072926E7",
+      "C": "Service Projects Chair",
+      "D": "2025.0",
+      "E": "ianwalter309@gmail.com",
+      "F": "+254 716561507"
+    },
+    {
+      "A": "Winnie Teresia",
+      "B": "1.228547E7",
+      "C": "Member",
+      "D": "2025.0",
+      "E": "teresiawinnie67@gmail.com",
+      "F": "+254 705 220637"
+    },
+    {
+      "A": "Annabel Wanjiku",
+      "B": "1.2072947E7",
+      "C": "Honorary",
+      "D": "2024.0",
+      "E": "annabelnjiks@gmail.com",
+      "F": "+254 100301231"
+    },
+    {
+      "A": "Faith Wanjohi",
+      "B": "1.2285444E7",
+      "C": "Member",
+      "D": "2025.0",
+      "E": "faithwanjohi69@gmail.com",
+      "F": "+254 711 654969"
+    }
+  ],
+  "c:\\Users\\TOM NGATA\\Documents\\AI Automations\\Rotaract_Westlands\\Elections_2026\\Nominations\\excel data\\Rotaract Club Westlands Office Bearers.xlsx": [
+    {
+      "A": "Role",
+      "B": "Full Name",
+      "C": "Email Address",
+      "D": "Phone Number",
+      "E": null,
+      "F": null,
+      "G": null,
+      "H": null,
+      "I": null,
+      "J": null,
+      "K": null,
+      "L": null,
+      "M": null,
+      "N": null,
+      "O": null,
+      "P": null,
+      "Q": null,
+      "R": null,
+      "S": null,
+      "T": null,
+      "U": null,
+      "V": null,
+      "W": null,
+      "X": null,
+      "Y": null,
+      "Z": null
+    },
+    {
+      "A": "Club President",
+      "B": "Eva Gaicugi",
+      "C": "evagerald20@gmail.com",
+      "D": "+254 0711274460"
+    },
+    {
+      "A": "Club Vice President",
+      "B": "Leone Mutahi",
+      "C": "leonmutahi@gmail.com",
+      "D": "+254 726 662887"
+    },
+    {
+      "A": "Club Secretary",
+      "B": "Edita Marion",
+      "C": "editamarion111@gmail.com",
+      "D": "+254 0791365479"
+    },
+    {
+      "A": "Treasurer",
+      "B": "Whitney Kimutai",
+      "C": "kimutaiwhitney@gmail.com",
+      "D": "+254 740832123"
+    },
+    {
+      "A": "Club Membership Chair",
+      "B": "Lesley Nabwire Nyongesa",
+      "C": "lesleynabwire6@gmail.com",
+      "D": "N/A"
+    },
+    {
+      "A": "Club Public Image Chair",
+      "B": "Mildred Otaba Otaba",
+      "C": "mildredotaba@gmail.com",
+      "D": "+254 0716343679"
+    },
+    {
+      "A": "Club Service Projects Chair",
+      "B": "Ian Walter Sikobe",
+      "C": "ianwalter309@gmail.com",
+      "D": "+254 716561507"
+    },
+    {
+      "A": "Club Foundation Chair",
+      "B": "Lynn Machua",
+      "C": "lynnmachuamark@gmail.com",
+      "D": "+254 0723760305"
+    },
+    {
+      "A": "Rotaract Young Leaders Contact",
+      "B": "Esther Muthoni Nderitu",
+      "C": "esthernderitu68@gmail.com",
+      "D": "+254 748039826"
+    },
+    {
+      "A": "Rotaract Learning Facilitator",
+      "B": "Thomas Ngata",
+      "C": "tom.ngata@gmail.com",
+      "D": "N/A"
+    },
+    {
+      "A": "Rotaract Advisor",
+      "B": "David Aqwiri Onyango",
+      "C": "aqdave61@gmail.com",
+      "D": "N/A"
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    },
+    {
+      "A": null
+    }
+  ]
+}

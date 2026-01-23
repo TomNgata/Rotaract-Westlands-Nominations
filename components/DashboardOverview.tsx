@@ -1,21 +1,20 @@
 
-import React, { useMemo, useEffect, useState } from 'react';
-import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
-  Cell 
+import React, { useMemo, useState, useEffect } from 'react';
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  Cell
 } from 'recharts';
-import { 
-  Trophy, 
-  Users, 
-  Clock, 
-  CheckCircle2, 
-  ChevronRight, 
+import {
+  Trophy,
+  Users,
+  Clock,
+  CheckCircle2,
+  ChevronRight,
   ArrowUpRight,
-  Lightbulb,
   AlertTriangle
 } from 'lucide-react';
 import { Nomination, Position, Member, DashboardStats } from '../types';
-import { geminiService } from '../services/geminiService';
+import { ELECTION_SCHEDULE } from '../constants';
 
 interface DashboardOverviewProps {
   nominations: Nomination[];
@@ -24,41 +23,81 @@ interface DashboardOverviewProps {
   onAddNomination: () => void;
 }
 
+
 const StatCard: React.FC<{ title: string; value: string | number; icon: React.ReactNode; trend?: string; colorClass: string; iconBg: string }> = ({ title, value, icon, trend, colorClass, iconBg }) => (
-  <div className="bg-slate-900 p-6 rounded-xl border border-slate-800 shadow-sm hover:border-slate-700 transition-all">
-    <div className="flex justify-between items-start">
-      <div>
-        <p className="text-sm font-medium text-slate-400 mb-1">{title}</p>
-        <h3 className="text-2xl font-bold text-slate-100">{value}</h3>
-        {trend && (
-          <p className="text-xs mt-1 flex items-center text-emerald-400 font-medium">
-            <ArrowUpRight size={14} className="mr-1" />
-            {trend}
-          </p>
-        )}
-      </div>
-      <div className={`p-3 rounded-lg ${iconBg}`}>
+  <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-cranberry-200 transition-all flex flex-col justify-between h-full">
+    <div className="flex justify-between items-start mb-2">
+      <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{title}</p>
+      <div className={`p-2 rounded-lg ${iconBg.replace('bg-slate-900', 'bg-slate-50')}`}>
         {icon}
       </div>
+    </div>
+    <div>
+      <h3 className="text-3xl font-heading font-bold text-slate-900">{value}</h3>
+      {trend && (
+        <p className="text-[10px] mt-1 flex items-center text-emerald-600 font-bold bg-emerald-50 w-fit px-2 py-0.5 rounded-full">
+          <ArrowUpRight size={12} className="mr-1" />
+          {trend}
+        </p>
+      )}
     </div>
   </div>
 );
 
 export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ nominations, positions, members, onAddNomination }) => {
-  const [aiInsights, setAiInsights] = useState<string>('Analyzing current nomination data...');
-  const [isInsightLoading, setIsInsightLoading] = useState(true);
+  const [timeLeft, setTimeLeft] = useState('Loading...');
+  const [timerStatus, setTimerStatus] = useState<'UPCOMING' | 'ACTIVE' | 'CLOSED'>('UPCOMING');
+
+  useEffect(() => {
+    const updateTimer = () => {
+      const now = new Date().getTime();
+      const openTime = new Date(ELECTION_SCHEDULE.OPEN_DATE).getTime();
+      const closeTime = new Date(ELECTION_SCHEDULE.CLOSE_DATE).getTime();
+
+      let targetTime = openTime;
+      let status: 'UPCOMING' | 'ACTIVE' | 'CLOSED' = 'UPCOMING';
+
+      if (now < openTime) {
+        status = 'UPCOMING';
+        targetTime = openTime;
+      } else if (now >= openTime && now < closeTime) {
+        status = 'ACTIVE';
+        targetTime = closeTime;
+      } else {
+        status = 'CLOSED';
+        setTimeLeft('Nominations Closed');
+        setTimerStatus('CLOSED');
+        return;
+      }
+
+      setTimerStatus(status);
+
+      const distance = targetTime - now;
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+    };
+
+    const interval = setInterval(updateTimer, 1000);
+    updateTimer(); // Initial call
+
+    return () => clearInterval(interval);
+  }, []);
 
   const stats: DashboardStats = useMemo(() => {
     const totalMembers = members.length;
     const totalNominations = nominations.length;
     const uniqueNominators = new Set(nominations.map(n => n.nominatorId)).size;
-    
+
     const nomCountMap: Record<string, Set<string>> = {};
     nominations.forEach(n => {
       if (!nomCountMap[n.nomineeId]) nomCountMap[n.nomineeId] = new Set();
       nomCountMap[n.nomineeId].add(n.nominatorId);
     });
-    
+
     const qualifiedCandidates = Object.values(nomCountMap).filter(set => set.size >= 2).length;
 
     return {
@@ -76,93 +115,92 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ nomination
     });
   }, [nominations, positions]);
 
-  useEffect(() => {
-    const fetchInsights = async () => {
-      setIsInsightLoading(true);
-      const insights = await geminiService.getDashboardInsights(nominations, positions, members);
-      setAiInsights(insights || 'No insights available.');
-      setIsInsightLoading(false);
-    };
-    fetchInsights();
-  }, [nominations, positions, members]);
+
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="space-y-8 animate-in fade-in duration-500 font-body">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
-          <h2 className="text-2xl font-bold text-slate-100">Dashboard Overview</h2>
-          <p className="text-sm text-slate-400">Real-time status of RY 2026/2027 board nominations.</p>
+          <h2 className="text-3xl font-heading font-bold italic text-cranberry-600">Dashboard Overview</h2>
+          <p className="text-sm text-slate-500 mt-1 max-w-xl">Real-time status of the Rotary Year 2026/2027 board nominations process.</p>
         </div>
-        <button 
+        <button
           onClick={onAddNomination}
-          className="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-lg font-medium transition-all shadow-lg shadow-blue-900/20 inline-flex items-center justify-center space-x-2 active:scale-[0.98]"
+          className="bg-cranberry-600 hover:bg-cranberry-700 text-white px-6 py-3 rounded-lg font-bold transition-all shadow-lg shadow-cranberry-900/20 inline-flex items-center justify-center space-x-2 active:scale-[0.98] group"
         >
-          <span>Submit a Nomination</span>
-          <ChevronRight size={18} />
+          <span>Submit Nomination</span>
+          <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
         </button>
       </div>
 
       {/* KPI Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard 
-          title="Total Nominations" 
-          value={stats.totalNominations} 
-          icon={<Trophy size={20} className="text-blue-400" />} 
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <StatCard
+          title="Total Nominations"
+          value={stats.totalNominations}
+          icon={<Trophy size={20} className="text-cranberry-600" />}
           trend="+12% from yesterday"
-          colorClass="text-blue-400"
-          iconBg="bg-blue-500/10"
+          colorClass="text-cranberry-600"
+          iconBg="bg-cranberry-50"
         />
-        <StatCard 
-          title="Participation Rate" 
-          value={`${stats.participationRate}%`} 
-          icon={<Users size={20} className="text-purple-400" />} 
-          colorClass="text-purple-400"
-          iconBg="bg-purple-500/10"
+        <StatCard
+          title="Participation Rate"
+          value={`${stats.participationRate}%`}
+          icon={<Users size={20} className="text-blue-600" />}
+          colorClass="text-blue-600"
+          iconBg="bg-blue-50"
         />
-        <StatCard 
-          title="Qualified Candidates" 
-          value={stats.qualifiedCandidates} 
-          icon={<CheckCircle2 size={20} className="text-emerald-400" />} 
-          colorClass="text-emerald-400"
-          iconBg="bg-emerald-500/10"
+        <StatCard
+          title="Qualified Candidates"
+          value={stats.qualifiedCandidates}
+          icon={<CheckCircle2 size={20} className="text-emerald-600" />}
+          colorClass="text-emerald-600"
+          iconBg="bg-emerald-50"
         />
-        <StatCard 
-          title="Days Remaining" 
-          value="4" 
-          icon={<Clock size={20} className="text-amber-400" />} 
-          colorClass="text-amber-400"
-          iconBg="bg-amber-500/10"
+        <StatCard
+          title={timerStatus === 'UPCOMING' ? "Nominations Open In" : timerStatus === 'ACTIVE' ? "Time Remaining" : "Status"}
+          value={timeLeft}
+          icon={<Clock size={20} className={timerStatus === 'ACTIVE' ? "text-emerald-600" : "text-amber-600"} />}
+          colorClass={timerStatus === 'ACTIVE' ? "text-emerald-600" : "text-amber-600"}
+          iconBg={timerStatus === 'ACTIVE' ? "bg-emerald-50" : "bg-amber-50"}
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-8">
         {/* Main Chart */}
-        <div className="lg:col-span-2 bg-slate-900 p-6 rounded-xl border border-slate-800 shadow-sm">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="font-semibold text-slate-100">Nominations by Position</h3>
-            <div className="text-xs text-slate-500">Target: Minimum 2 per position</div>
+        <div className="bg-white p-8 rounded-xl border border-slate-200 shadow-sm">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h3 className="font-heading font-bold text-lg text-slate-900">Nominations by Position</h3>
+              <p className="text-xs text-slate-500 mt-1">Target: Minimum 2 per position</p>
+            </div>
+            <div className="flex space-x-4 text-[10px] font-bold uppercase tracking-widest">
+              <div className="flex items-center"><div className="w-3 h-3 bg-cranberry-500 rounded-sm mr-2"></div>Safe</div>
+              <div className="flex items-center"><div className="w-3 h-3 bg-slate-300 rounded-sm mr-2"></div>Critical</div>
+            </div>
           </div>
           <div className="h-80 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#1e293b" />
-                <XAxis 
-                  dataKey="name" 
-                  axisLine={false} 
-                  tickLine={false} 
-                  tick={{ fontSize: 10, fill: '#64748b' }}
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                <XAxis
+                  dataKey="name"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 10, fill: '#64748b', fontWeight: 500 }}
                   angle={-15}
                   textAnchor="end"
+                  interval={0}
                 />
                 <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#64748b' }} />
-                <Tooltip 
-                  cursor={{ fill: '#1e293b' }}
-                  contentStyle={{ backgroundColor: '#0f172a', borderRadius: '8px', border: '1px solid #1e293b', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-                  itemStyle={{ color: '#f1f5f9' }}
+                <Tooltip
+                  cursor={{ fill: '#f1f5f9' }}
+                  contentStyle={{ backgroundColor: '#ffffff', borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                  itemStyle={{ color: '#0f172a', fontWeight: 'bold' }}
                 />
                 <Bar dataKey="count" radius={[4, 4, 0, 0]}>
                   {chartData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.count < 2 ? '#f43f5e' : '#3b82f6'} fillOpacity={0.8} />
+                    <Cell key={`cell-${index}`} fill={entry.count < 2 ? '#cbd5e1' : '#D41B5C'} />
                   ))}
                 </Bar>
               </BarChart>
@@ -170,77 +208,68 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ nomination
           </div>
         </div>
 
-        {/* AI Insights Panel */}
-        <div className="bg-slate-900 p-6 rounded-xl border border-slate-800 shadow-sm flex flex-col">
-          <div className="flex items-center space-x-2 mb-4">
-            <Lightbulb size={20} className="text-amber-400" />
-            <h3 className="font-semibold text-slate-100">AI Committee Insights</h3>
-          </div>
-          <div className="flex-1 overflow-y-auto pr-1">
-            {isInsightLoading ? (
-              <div className="space-y-4 animate-pulse">
-                <div className="h-4 bg-slate-800 rounded w-full"></div>
-                <div className="h-4 bg-slate-800 rounded w-5/6"></div>
-                <div className="h-4 bg-slate-800 rounded w-4/6"></div>
-                <div className="h-4 bg-slate-800 rounded w-full"></div>
-              </div>
-            ) : (
-              <div className="text-sm text-slate-400 leading-relaxed whitespace-pre-line">
-                {aiInsights}
-              </div>
-            )}
-          </div>
-          <div className="mt-6 p-3 bg-blue-500/5 rounded-lg border border-blue-500/10 flex items-start space-x-3">
-            <AlertTriangle size={18} className="text-blue-400 mt-0.5" />
-            <p className="text-[11px] text-blue-300">
-              Note: This analysis is based on bylaws Clause 2.4. Final decisions rest with the Elections Committee Chair.
-            </p>
-          </div>
-        </div>
+
       </div>
 
       {/* Position Tracker Table */}
-      <div className="bg-slate-900 rounded-xl border border-slate-800 shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-slate-800 flex justify-between items-center">
-          <h3 className="font-semibold text-slate-100">Position Status Tracker</h3>
-          <span className="text-xs bg-slate-800 text-slate-400 px-2 py-1 rounded-full uppercase tracking-wide font-medium">Auto-Validated</span>
+      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+          <div>
+            <h3 className="font-heading font-bold text-lg text-slate-900">Position Status Tracker</h3>
+            <p className="text-xs text-slate-500">Live monitoring of all open roles</p>
+          </div>
+          <span className="text-[10px] bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full uppercase tracking-widest font-bold border border-emerald-100">
+            System Active
+          </span>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>
-              <tr className="bg-slate-800/50 text-slate-500 text-[10px] uppercase tracking-wider font-semibold">
-                <th className="px-6 py-3">Position</th>
-                <th className="px-6 py-3">Category</th>
-                <th className="px-6 py-3">Noms</th>
-                <th className="px-6 py-3">Status</th>
-                <th className="px-6 py-3 text-right">Action</th>
+              <tr className="bg-slate-50 text-slate-400 text-[10px] uppercase tracking-wider font-bold border-b border-slate-100">
+                <th className="px-8 py-4">Position</th>
+                <th className="px-6 py-4">Category</th>
+                <th className="px-6 py-4">Current Noms</th>
+                <th className="px-6 py-4">Status</th>
+                <th className="px-6 py-4 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800">
+            <tbody className="divide-y divide-slate-100">
               {positions.map(p => {
                 const count = nominations.filter(n => n.positionId === p.id).length;
                 const isCritical = count < 2;
                 return (
-                  <tr key={p.id} className="hover:bg-slate-800/50 transition-colors group">
-                    <td className="px-6 py-4">
-                      <div className="text-sm font-medium text-slate-200">{p.title}</div>
-                      <div className="text-xs text-slate-500">{p.description}</div>
+                  <tr key={p.id} className="hover:bg-slate-50 transition-colors group">
+                    <td className="px-8 py-5">
+                      <div className="text-sm font-bold text-slate-800">{p.title}</div>
+                      <div className="text-xs text-slate-500 mt-0.5">{p.description}</div>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className="text-xs px-2 py-1 bg-slate-800 text-slate-400 rounded capitalize border border-slate-700">
+                    <td className="px-6 py-5">
+                      <span className="text-[10px] px-2.5 py-1 bg-white text-slate-500 rounded-md font-bold uppercase tracking-wider border border-slate-200 shadow-sm">
                         {p.category.toLowerCase()}
                       </span>
                     </td>
-                    <td className="px-6 py-4 font-mono text-sm text-slate-300">{count}</td>
-                    <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-[10px] font-bold uppercase ${
-                        isCritical ? 'bg-red-500/10 text-red-400' : 'bg-emerald-500/10 text-emerald-400'
-                      }`}>
-                        {isCritical ? 'Critical' : 'Safe'}
+                    <td className="px-6 py-5">
+                      <div className="flex items-center space-x-2">
+                        <span className="font-mono text-sm font-bold text-slate-700">{count}</span>
+                        <div className="h-1.5 w-16 bg-slate-100 rounded-full overflow-hidden">
+                          <div
+                            className={`h-full rounded-full ${isCritical ? 'bg-amber-400' : 'bg-cranberry-500'}`}
+                            style={{ width: `${Math.min((count / 2) * 100, 100)}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-5">
+                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide ${isCritical ? 'bg-amber-50 text-amber-600 border border-amber-100' : 'bg-emerald-50 text-emerald-600 border border-emerald-100'
+                        }`}>
+                        {isCritical ? <AlertTriangle size={10} className="mr-1.5" /> : <CheckCircle2 size={10} className="mr-1.5" />}
+                        {isCritical ? 'Needs Noms' : 'Qualified'}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-right">
-                      <button className="text-blue-400 hover:text-blue-300 text-sm font-medium">View Noms</button>
+                    <td className="px-6 py-5 text-right">
+                      <button className="text-cranberry-600 hover:text-cranberry-800 text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
+                        View Details &rarr;
+                      </button>
                     </td>
                   </tr>
                 );
