@@ -9,6 +9,7 @@ import { POSITIONS, MOCK_MEMBERS } from './constants';
 import { Nomination, Member } from './types';
 
 import { supabase } from './services/supabaseClient';
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -264,6 +265,7 @@ export default function App() {
       currentUser={currentUser}
       onLogout={handleLogout}
     >
+      <SpeedInsights />
       {renderContent()}
 
       {showNominationModal && (
