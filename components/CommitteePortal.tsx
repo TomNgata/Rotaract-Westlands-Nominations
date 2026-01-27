@@ -52,6 +52,13 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
   const sortedNominations = React.useMemo(() => {
     if (!sortConfig) return filteredNominations;
 
+    // Filter out candidate-specific keys when in Nominations tab to be safe, 
+    // although activeTab check in UI prevents invoking wrong sort usually.
+    // However, sortConfig is shared. 
+    // If activeTab is NOMINATIONS, we only sort if key matches a nomination column.
+    const nomKeys = ['nominee', 'position', 'nominator', 'status', 'date'];
+    if (!nomKeys.includes(sortConfig.key)) return filteredNominations;
+
     return [...filteredNominations].sort((a, b) => {
       const nomineeA = members.find(m => m.id === a.nomineeId)?.name || '';
       const nomineeB = members.find(m => m.id === b.nomineeId)?.name || '';
@@ -118,6 +125,28 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
       });
     });
   }, [nominations, members, positions, disqualifiedCandidates]);
+
+  const sortedCandidates = React.useMemo(() => {
+    const candKeys = ['candidate', 'position', 'count', 'status'];
+    if (!sortConfig || !candKeys.includes(sortConfig.key)) return candidateStats;
+
+    return [...candidateStats].sort((a, b) => {
+      let valA: any = '';
+      let valB: any = '';
+
+      switch (sortConfig.key) {
+        case 'candidate': valA = a.member.name; valB = b.member.name; break;
+        case 'position': valA = a.position?.title || ''; valB = b.position?.title || ''; break;
+        case 'count': valA = a.count; valB = b.count; break;
+        case 'status': valA = a.status; valB = b.status; break;
+        default: return 0;
+      }
+
+      if (valA < valB) return sortConfig.direction === 'asc' ? -1 : 1;
+      if (valA > valB) return sortConfig.direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }, [candidateStats, sortConfig]);
 
   const toggleCandidateStatus = (candidateKey: string) => {
     const newSet = new Set(disqualifiedCandidates);
@@ -255,7 +284,7 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
           {(['NOMINATIONS', 'CANDIDATES', 'REPORT'] as const).map(tab => (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab)}
+              onClick={() => { setActiveTab(tab); setSortConfig(null); }}
               className={`px-4 py-2 text-xs font-bold rounded-md transition-all ${activeTab === tab
                   ? 'bg-blue-600 text-white shadow-lg'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
@@ -400,15 +429,23 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
           <table className="w-full text-left">
             <thead>
               <tr className="bg-slate-800/50 text-slate-500 text-[10px] uppercase tracking-wider font-semibold border-b border-slate-800">
-                <th className="px-6 py-4">Candidate</th>
-                <th className="px-6 py-4">Position</th>
-                <th className="px-6 py-4 text-center">Approved Noms</th>
-                <th className="px-6 py-4">Eligibility Status</th>
+                <th className="px-6 py-4 cursor-pointer hover:text-slate-300 group transition-colors" onClick={() => handleSort('candidate')}>
+                  Candidate <SortIcon columnKey="candidate" />
+                </th>
+                <th className="px-6 py-4 cursor-pointer hover:text-slate-300 group transition-colors" onClick={() => handleSort('position')}>
+                  Position <SortIcon columnKey="position" />
+                </th>
+                <th className="px-6 py-4 text-center cursor-pointer hover:text-slate-300 group transition-colors" onClick={() => handleSort('count')}>
+                  Approved Noms <SortIcon columnKey="count" />
+                </th>
+                <th className="px-6 py-4 cursor-pointer hover:text-slate-300 group transition-colors" onClick={() => handleSort('status')}>
+                  Eligibility Status <SortIcon columnKey="status" />
+                </th>
                 <th className="px-6 py-4 text-right">Committee Decision</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800">
-              {candidateStats.map(c => (
+              {sortedCandidates.map(c => (
                 <tr key={c.id} className="hover:bg-slate-800/30 transition-colors">
                   <td className="px-6 py-4">
                     <div className="text-sm font-bold text-slate-200">{c.member.name}</div>
@@ -437,7 +474,7 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
                   </td>
                 </tr>
               ))}
-              {candidateStats.length === 0 && (
+              {sortedCandidates.length === 0 && (
                 <tr><td colSpan={5} className="p-8 text-center text-slate-500 text-sm">No approved candidates found to vet.</td></tr>
               )}
             </tbody>
