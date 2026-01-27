@@ -5,7 +5,7 @@ import { Login } from './components/Login';
 import { DashboardOverview } from './components/DashboardOverview';
 import { NominationForm } from './components/NominationForm';
 import { CommitteePortal } from './components/CommitteePortal';
-import { POSITIONS, MOCK_MEMBERS } from './constants';
+import { POSITIONS, MOCK_MEMBERS, ELECTION_SCHEDULE } from './constants';
 import { Nomination, Member } from './types';
 
 import { supabase } from './services/supabaseClient';
@@ -82,6 +82,20 @@ export default function App() {
   };
 
   const handleAddNomination = useCallback(async (newNom: Partial<Nomination>) => {
+    const now = new Date().getTime();
+    const closeTime = new Date(ELECTION_SCHEDULE.CLOSE_DATE).getTime();
+    const openTime = new Date(ELECTION_SCHEDULE.OPEN_DATE).getTime();
+
+    if (now < openTime) {
+      alert("Nominations have not opened yet.");
+      return;
+    }
+
+    if (now > closeTime) {
+      alert("Nominations are officially closed.");
+      return;
+    }
+
     if (!currentUser) return;
 
     try {

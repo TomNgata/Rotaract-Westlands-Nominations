@@ -126,10 +126,14 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ nomination
         </div>
         <button
           onClick={onAddNomination}
-          className="bg-cranberry-600 hover:bg-cranberry-700 text-white px-6 py-3 rounded-lg font-bold transition-all shadow-lg shadow-cranberry-900/20 inline-flex items-center justify-center space-x-2 active:scale-[0.98] group"
+          disabled={timerStatus !== 'ACTIVE'}
+          className={`px-6 py-3 rounded-lg font-bold transition-all shadow-lg inline-flex items-center justify-center space-x-2 group ${timerStatus === 'ACTIVE'
+              ? 'bg-cranberry-600 hover:bg-cranberry-700 text-white shadow-cranberry-900/20 active:scale-[0.98]'
+              : 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none'
+            }`}
         >
-          <span>Submit Nomination</span>
-          <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+          <span>{timerStatus === 'CLOSED' ? 'Nominations Closed' : 'Submit Nomination'}</span>
+          {timerStatus === 'ACTIVE' && <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />}
         </button>
       </div>
 
