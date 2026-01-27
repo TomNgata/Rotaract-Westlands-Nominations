@@ -21,6 +21,15 @@ interface CommitteePortalProps {
 export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, members, positions, onReview }) => {
   const [filter, setFilter] = useState<'ALL' | 'PENDING' | 'APPROVED' | 'REJECTED'>('ALL');
   const [search, setSearch] = useState('');
+  const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
+
+  const handleSort = (key: string) => {
+    let direction: 'asc' | 'desc' = 'asc';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
 
   const filteredNominations = nominations.filter(n => {
     const nominee = members.find(m => m.id === n.nomineeId);
@@ -31,6 +40,56 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
     const matchesFilter = filter === 'ALL' || n.reviewStatus === filter;
     return matchesSearch && matchesFilter;
   });
+
+  const sortedNominations = React.useMemo(() => {
+    if (!sortConfig) return filteredNominations;
+
+    return [...filteredNominations].sort((a, b) => {
+      const nomineeA = members.find(m => m.id === a.nomineeId)?.name || '';
+      const nomineeB = members.find(m => m.id === b.nomineeId)?.name || '';
+      const nominatorA = members.find(m => m.id === a.nominatorId)?.name || '';
+      const nominatorB = members.find(m => m.id === b.nominatorId)?.name || '';
+      const positionA = positions.find(p => p.id === a.positionId)?.title || '';
+      const positionB = positions.find(p => p.id === b.positionId)?.title || '';
+
+      let valA: any = '';
+      let valB: any = '';
+
+      switch (sortConfig.key) {
+        case 'nominee':
+          valA = nomineeA;
+          valB = nomineeB;
+          break;
+        case 'position':
+          valA = positionA;
+          valB = positionB;
+          break;
+        case 'nominator':
+          valA = nominatorA;
+          valB = nominatorB;
+          break;
+        case 'status':
+          valA = a.reviewStatus;
+          valB = b.reviewStatus;
+          break;
+        case 'date':
+          valA = a.timestamp;
+          valB = b.timestamp;
+          break;
+        default:
+          return 0;
+      }
+
+      if (valA < valB) return sortConfig.direction === 'asc' ? -1 : 1;
+      if (valA > valB) return sortConfig.direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }, [filteredNominations, sortConfig, members, positions]);
+
+  const SortIcon = ({ columnKey }: { columnKey: string }) => {
+    if (sortConfig?.key !== columnKey) return <span className="opacity-0 group-hover:opacity-50 ml-1">↕</span>;
+    return <span className="ml-1 text-blue-400">{sortConfig.direction === 'asc' ? '↑' : '↓'}</span>;
+  };
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
@@ -83,15 +142,23 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
           <table className="w-full text-left">
             <thead>
               <tr className="bg-slate-800/50 text-slate-500 text-[10px] uppercase tracking-wider font-semibold border-b border-slate-800">
-                <th className="px-6 py-4">Nominee / Position</th>
-                <th className="px-6 py-4">Nominator</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4">Date</th>
+                <th className="px-6 py-4 cursor-pointer hover:text-slate-300 group transition-colors" onClick={() => handleSort('nominee')}>
+                  Nominee / Position <SortIcon columnKey="nominee" />
+                </th>
+                <th className="px-6 py-4 cursor-pointer hover:text-slate-300 group transition-colors" onClick={() => handleSort('nominator')}>
+                  Nominator <SortIcon columnKey="nominator" />
+                </th>
+                <th className="px-6 py-4 cursor-pointer hover:text-slate-300 group transition-colors" onClick={() => handleSort('status')}>
+                  Status <SortIcon columnKey="status" />
+                </th>
+                <th className="px-6 py-4 cursor-pointer hover:text-slate-300 group transition-colors" onClick={() => handleSort('date')}>
+                  Date <SortIcon columnKey="date" />
+                </th>
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800">
-              {filteredNominations.map(n => {
+              {sortedNominations.map(n => {
                 const nominee = members.find(m => m.id === n.nomineeId);
                 const nominator = members.find(m => m.id === n.nominatorId);
                 const pos = positions.find(p => p.id === n.positionId);
@@ -144,7 +211,7 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
                   </tr>
                 );
               })}
-              {filteredNominations.length === 0 && (
+              {sortedNominations.length === 0 && (
                 <tr>
                   <td colSpan={5} className="px-6 py-12 text-center text-slate-500 text-sm italic">
                     No records found for the current selection.
