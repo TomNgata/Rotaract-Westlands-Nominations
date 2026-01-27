@@ -142,8 +142,14 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
           <table className="w-full text-left">
             <thead>
               <tr className="bg-slate-800/50 text-slate-500 text-[10px] uppercase tracking-wider font-semibold border-b border-slate-800">
-                <th className="px-6 py-4 cursor-pointer hover:text-slate-300 group transition-colors" onClick={() => handleSort('nominee')}>
-                  Nominee / Position <SortIcon columnKey="nominee" />
+                <th className="px-6 py-4">
+                  <span className="cursor-pointer hover:text-slate-300 transition-colors group inline-flex items-center" onClick={() => handleSort('nominee')}>
+                    Nominee <SortIcon columnKey="nominee" />
+                  </span>
+                  <span className="mx-2 text-slate-600">/</span>
+                  <span className="cursor-pointer hover:text-slate-300 transition-colors group inline-flex items-center" onClick={() => handleSort('position')}>
+                    Position <SortIcon columnKey="position" />
+                  </span>
                 </th>
                 <th className="px-6 py-4 cursor-pointer hover:text-slate-300 group transition-colors" onClick={() => handleSort('nominator')}>
                   Nominator <SortIcon columnKey="nominator" />
@@ -175,8 +181,8 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
                     </td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${n.reviewStatus === 'APPROVED' ? 'bg-emerald-500/10 text-emerald-400' :
-                          n.reviewStatus === 'REJECTED' ? 'bg-red-500/10 text-red-400' :
-                            'bg-amber-500/10 text-amber-400'
+                        n.reviewStatus === 'REJECTED' ? 'bg-red-500/10 text-red-400' :
+                          'bg-amber-500/10 text-amber-400'
                         }`}>
                         {n.reviewStatus}
                       </span>
