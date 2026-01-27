@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import {
   CheckCircle,
@@ -131,18 +130,20 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
   };
 
   // --------------------------------------------------------------------------
-  // Tab 3: Report Logic
+  // Tab 3: Report & Engagement Logic
   // --------------------------------------------------------------------------
   const reportStats = React.useMemo(() => {
+    // Basic Stats
     const total = nominations.length;
     const spoiled = nominations.filter(n => n.reviewStatus === 'REJECTED').length;
     const approved = nominations.filter(n => n.reviewStatus === 'APPROVED').length;
     const pending = nominations.filter(n => n.reviewStatus === 'PENDING').length;
 
+    // Position Breakdown
     const positionBreakdown = positions.map(p => {
       const noms = nominations.filter(n => n.positionId === p.id);
       const approvedCount = noms.filter(n => n.reviewStatus === 'APPROVED').length;
-      // Count unique candidates with >= 2 approved noms
+
       const candidateMap = new Map<string, number>();
       noms.filter(n => n.reviewStatus === 'APPROVED').forEach(n => {
         candidateMap.set(n.nomineeId, (candidateMap.get(n.nomineeId) || 0) + 1);
@@ -157,8 +158,85 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
       };
     });
 
-    return { total, spoiled, approved, pending, positionBreakdown };
-  }, [nominations, positions]);
+    // Engagement Analysis
+    const nominatorMap = new Map<string, { total: number, positions: Set<string>, duplicates: boolean }>();
+
+    nominations.forEach(n => {
+      if (!nominatorMap.has(n.nominatorId)) {
+        nominatorMap.set(n.nominatorId, { total: 0, positions: new Set(), duplicates: false });
+      }
+      const entry = nominatorMap.get(n.nominatorId)!;
+      entry.total += 1;
+      if (entry.positions.has(n.positionId)) {
+        entry.duplicates = true;
+      }
+      entry.positions.add(n.positionId);
+    });
+
+    let fullNominators = 0;
+    let partialNominators = 0;
+    let mistakenNominators = 0;
+    const totalNominators = nominatorMap.size;
+    const totalMembers = members.length; // Assuming 'members' list is the full club list
+    const participationRate = totalMembers > 0 ? Math.round((totalNominators / totalMembers) * 100) : 0;
+
+    nominatorMap.forEach((data) => {
+      if (data.duplicates) {
+        mistakenNominators++;
+      } else if (data.positions.size === positions.length) {
+        fullNominators++;
+      } else {
+        partialNominators++;
+      }
+    });
+
+    return {
+      total, spoiled, approved, pending, positionBreakdown,
+      participation: {
+        rate: participationRate,
+        totalNominators,
+        totalMembers,
+        fullNominators,
+        partialNominators,
+        mistakenNominators
+      }
+    };
+  }, [nominations, positions, members]);
+
+  const downloadReport = () => {
+    // Generate CSV content
+    const headers = ['Metric', 'Value'];
+    const rows = [
+      ['Total Nominations', reportStats.total],
+      ['Approved Nominations', reportStats.approved],
+      ['Spoilt / Rejected', reportStats.spoiled],
+      ['Pending Review', reportStats.pending],
+      ['', ''],
+      ['Engagement Analysis', ''],
+      ['Total Members', reportStats.participation.totalMembers],
+      ['Participating Members', reportStats.participation.totalNominators],
+      ['Participation Rate', `${reportStats.participation.rate}%`],
+      ['Full Nominations (All Positions)', reportStats.participation.fullNominators],
+      ['Partial Nominations', reportStats.participation.partialNominators],
+      ['Mistaken (Duplicate) Nominations', reportStats.participation.mistakenNominators],
+      ['', ''],
+      ['Position Breakdown', ''],
+      ['Position', 'Total Noms', 'Approved Noms', 'Qualified Candidates'],
+      ...reportStats.positionBreakdown.map(p => [p.title, p.total, p.approved, p.qualifiedCandidates])
+    ];
+
+    const csvContent = "data:text/csv;charset=utf-8,"
+      + headers.join(",") + "\n"
+      + rows.map(e => e.join(",")).join("\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "nomination_report.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
 
   return (
@@ -369,6 +447,51 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
 
       {activeTab === 'REPORT' && (
         <div className="space-y-6">
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-bold text-slate-100">Election Statistics</h3>
+            <button onClick={downloadReport} className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-bold transition-colors">
+              <Download size={16} />
+              <span>Download CSV</span>
+            </button>
+          </div>
+
+          {/* Engagement Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-slate-900 p-6 rounded-xl border border-slate-800">
+              <h4 className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-4">Participation</h4>
+              <div className="flex items-baseline space-x-2">
+                <span className="text-4xl font-bold text-white">{reportStats.participation.rate}%</span>
+                <span className="text-slate-500">of membership</span>
+              </div>
+              <div className="mt-2 text-sm text-slate-500">
+                {reportStats.participation.totalNominators} active nominators out of {reportStats.participation.totalMembers} members.
+              </div>
+            </div>
+            <div className="bg-slate-900 p-6 rounded-xl border border-slate-800">
+              <h4 className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-4">Quality of Nominations</h4>
+              <div className="space-y-3">
+                <div className="flex justify-between text-sm">
+                  <span className="text-emerald-400 font-medium">Full Lists (All Positions)</span>
+                  <span className="text-slate-200 font-bold">{reportStats.participation.fullNominators}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-slate-400 font-medium">Partial Lists</span>
+                  <span className="text-slate-200 font-bold">{reportStats.participation.partialNominators}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-red-400 font-medium">Mistaken / Duplicates</span>
+                  <span className="text-slate-200 font-bold">{reportStats.participation.mistakenNominators}</span>
+                </div>
+                <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden flex mt-2">
+                  <div className="bg-emerald-500" style={{ width: `${(reportStats.participation.fullNominators / reportStats.participation.totalNominators) * 100}%` }}></div>
+                  <div className="bg-slate-600" style={{ width: `${(reportStats.participation.partialNominators / reportStats.participation.totalNominators) * 100}%` }}></div>
+                  <div className="bg-red-500" style={{ width: `${(reportStats.participation.mistakenNominators / reportStats.participation.totalNominators) * 100}%` }}></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* General Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-slate-900 p-4 rounded-xl border border-slate-800">
               <div className="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">Total Nominations</div>
