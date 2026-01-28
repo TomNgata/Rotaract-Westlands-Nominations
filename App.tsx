@@ -355,6 +355,15 @@ export default function App() {
             }}
           />
         );
+      case 'tallying':
+        return (
+          <TallyingStation
+            positions={POSITIONS}
+            members={members}
+            votes={votes}
+            candidacyResponses={candidacyResponses}
+          />
+        );
       default:
         return <div>Tab not implemented.</div>;
     }
