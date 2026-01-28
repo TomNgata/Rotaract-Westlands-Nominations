@@ -307,7 +307,7 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
 
         {/* Tab Navigation */}
         <div className="flex space-x-1 bg-slate-900 p-1 rounded-lg border border-slate-800">
-          {(['NOMINATIONS', 'CANDIDATES', 'REPORT'] as const).map(tab => (
+          {(['NOMINATIONS', 'CANDIDATES', 'REPORT', 'BALLOT_STATUS'] as const).map(tab => (
             <button
               key={tab}
               onClick={() => { setActiveTab(tab); setSortConfig(null); }}
@@ -316,7 +316,7 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
                 }`}
             >
-              {tab}
+              {tab.replace('_', ' ')}
             </button>
           ))}
         </div>
