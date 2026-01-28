@@ -109,11 +109,11 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
                                     <div className="w-16 h-16 bg-white text-emerald-600 border border-emerald-100 rounded-full flex items-center justify-center mb-4 shadow-sm">
                                         <Trophy size={32} />
                                     </div>
-                                    <h4 className="text-xl font-bold text-slate-900">{acceptedCandidates[0].name}</h4>
-                                    <p className="text-emerald-600 font-bold text-sm uppercase tracking-widest mt-1 mb-2">Elected Unopposed</p>
+                                    <h4 className="text-xl font-bold text-slate-900">Candidate Unopposed</h4>
+                                    <p className="text-emerald-600 font-bold text-sm uppercase tracking-widest mt-1 mb-2">Position Filled Automatically</p>
                                     <p className="text-slate-500 text-sm max-w-md">
-                                        As the sole candidate accepting nomination for this position,
-                                        <span className="font-bold text-slate-900"> {acceptedCandidates[0].name}</span> is declared elected unopposed.
+                                        This position has a single qualified candidate who is unopposed.
+                                        In accordance with election by-laws, this position is filled automatically pending final Board confirmation.
                                         No voting is required for this docket.
                                     </p>
                                 </div>

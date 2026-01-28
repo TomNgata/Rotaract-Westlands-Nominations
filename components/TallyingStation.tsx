@@ -120,7 +120,7 @@ export const TallyingStation: React.FC<TallyingStationProps> = ({ positions, mem
                                     }`}>
                                     <Trophy size={14} />
                                     <span className="text-xs font-bold">
-                                        {isUnopposed ? 'Elected Unopposed' : `Leading: ${winner.name}`}
+                                        {isUnopposed ? 'Position Filled' : `Leading: ${winner.name}`}
                                     </span>
                                 </div>
                             )}
@@ -134,11 +134,11 @@ export const TallyingStation: React.FC<TallyingStationProps> = ({ positions, mem
                                         <CheckCircle2 size={32} />
                                     </div>
                                     <div>
-                                        <h4 className="text-lg font-bold text-slate-800">{winner.name}</h4>
-                                        <p className="text-emerald-700 font-medium mt-1">Declared Winner</p>
+                                        <h4 className="text-lg font-bold text-slate-800">Candidate Unopposed</h4>
+                                        <p className="text-emerald-700 font-medium mt-1">Position Filled Automatically</p>
                                         <p className="text-sm text-slate-500 mt-2 leading-relaxed">
-                                            This candidate was the sole nominee to accept the nomination for this position.
-                                            In accordance with election by-laws, they are declared elected unopposed.
+                                            This position has been filled automatically as the single qualified candidate is unopposed.
+                                            Final confirmation is subject to Board vetting.
                                         </p>
                                     </div>
                                 </div>
