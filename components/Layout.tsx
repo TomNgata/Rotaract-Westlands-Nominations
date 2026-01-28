@@ -14,6 +14,7 @@ import {
   Briefcase
 } from 'lucide-react';
 import { Member } from '../types';
+import { VOTING_SCHEDULE } from '../constants';
 
 interface NavItemProps {
   icon: React.ReactNode;
@@ -104,6 +105,24 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTa
               isActive={activeTab === 'nominations'}
               onClick={() => { setActiveTab('nominations'); setIsSidebarOpen(false); }}
             />
+            {/* Voting Tab - Only shows when active */}
+            {(() => {
+              const now = new Date().getTime();
+              const openTime = new Date(VOTING_SCHEDULE.OPEN_DATE).getTime();
+              const closeTime = new Date(VOTING_SCHEDULE.CLOSE_DATE).getTime();
+              const isVotingActive = now >= openTime && now < closeTime;
+
+              if (!isVotingActive) return null;
+
+              return (
+                <NavItem
+                  icon={<ShieldCheck size={18} />}
+                  label="Cast Vote"
+                  isActive={activeTab === 'vote'}
+                  onClick={() => { setActiveTab('vote'); setIsSidebarOpen(false); }}
+                />
+              );
+            })()}
             <NavItem
               icon={<Briefcase size={18} />}
               label="My Candidacy"
