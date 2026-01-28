@@ -54,10 +54,11 @@ export interface CandidacyResponse {
   timestamp: number;
 }
 
-export interface Vote {
+
+export interface ElectionSettings {
   id: string;
-  voterId: string;
-  positionId: string;
-  candidateId: string;
-  timestamp: number;
+  nomination_start: string;
+  nomination_end: string;
+  voting_start: string;
+  voting_end: string;
 }

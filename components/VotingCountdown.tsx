@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Timer, Calendar, AlertCircle } from 'lucide-react';
 import { VOTING_SCHEDULE } from '../constants';
 
-export const VotingCountdown: React.FC = () => {
+interface VotingCountdownProps {
+    startDate?: string;
+    endDate?: string;
+}
+
+export const VotingCountdown: React.FC<VotingCountdownProps> = ({ startDate, endDate }) => {
     const [timeLeft, setTimeLeft] = useState<{
         days: number;
         hours: number;
@@ -13,9 +18,13 @@ export const VotingCountdown: React.FC = () => {
 
     useEffect(() => {
         const calculateTimeLeft = () => {
+            // Use props or fallback to constants
+            const openDateStr = startDate || VOTING_SCHEDULE.OPEN_DATE;
+            const closeDateStr = endDate || VOTING_SCHEDULE.CLOSE_DATE;
+
             const now = new Date().getTime();
-            const openTime = new Date(VOTING_SCHEDULE.OPEN_DATE).getTime();
-            const closeTime = new Date(VOTING_SCHEDULE.CLOSE_DATE).getTime();
+            const openTime = new Date(openDateStr).getTime();
+            const closeTime = new Date(closeDateStr).getTime();
 
             let targetTime = openTime;
             let currentStatus: 'UPCOMING' | 'ACTIVE' | 'ENDED' = 'UPCOMING';
@@ -123,11 +132,12 @@ export const VotingCountdown: React.FC = () => {
 
                 {timeLeft.status === 'UPCOMING' && (
                     <p className="mt-5 text-cranberry-900 text-xs font-bold flex items-center justify-center opacity-80">
-                        <Calendar size={14} className="mr-1.5" />
-                        Begins Wednesday, Jan 28th @ 7:00 PM
-                    </p>
+                        <p className="mt-5 text-cranberry-900 text-xs font-bold flex items-center justify-center opacity-80">
+                            <Calendar size={14} className="mr-1.5" />
+                            Begins {new Date(startDate || VOTING_SCHEDULE.OPEN_DATE).toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
+                        </p>
                 )}
-            </div>
+                    </div>
         </div>
-    );
+            );
 };

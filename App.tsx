@@ -23,6 +23,7 @@ export default function App() {
   const [members, setMembers] = useState<Member[]>([]);
   const [showNominationModal, setShowNominationModal] = useState(false);
   const [currentUser, setCurrentUser] = useState<Member | null>(null);
+  const [electionSettings, setElectionSettings] = useState<ElectionSettings | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   // Fetch initial data
@@ -100,6 +101,24 @@ export default function App() {
             timestamp: new Date(v.created_at).getTime()
           })));
         }
+
+        // Fetch Election Settings
+        const { data: settingsData, error: settingsError } = await supabase
+          .from('election_settings')
+          .select('*')
+          .eq('id', 'CONFIG')
+          .single();
+
+        if (settingsData) {
+          setElectionSettings({
+            id: settingsData.id,
+            nomination_start: settingsData.nomination_start,
+            nomination_end: settingsData.nomination_end,
+            voting_start: settingsData.voting_start,
+            voting_end: settingsData.voting_end
+          });
+        }
+
 
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -192,7 +211,12 @@ export default function App() {
   }, []);
 
   if (!currentUser) {
-    return <Login onLogin={handleLogin} />;
+    return (
+      <Login
+        onLogin={handleLogin}
+        settings={electionSettings}
+      />
+    );
   }
 
   const renderContent = () => {
@@ -204,6 +228,7 @@ export default function App() {
             positions={POSITIONS}
             members={members}
             onAddNomination={() => setShowNominationModal(true)}
+            settings={electionSettings}
           />
         );
       case 'nominations':
@@ -306,6 +331,8 @@ export default function App() {
             positions={POSITIONS}
             onReview={handleReviewNomination}
             candidacyResponses={candidacyResponses}
+            settings={electionSettings}
+            onUpdateSettings={setElectionSettings}
           />
         );
       case 'candidacy':
