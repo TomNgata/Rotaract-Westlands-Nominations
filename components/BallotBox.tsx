@@ -1,7 +1,8 @@
 
 import React, { useState, useMemo } from 'react';
 import { Member, Position, PositionCategory, CandidacyResponse, Nomination } from '../types';
-import { CheckCircle, ShieldCheck, Trophy } from 'lucide-react';
+import { CheckCircle, ShieldCheck, Trophy, Loader2 } from 'lucide-react';
+import { supabase } from '../services/supabaseClient';
 
 interface BallotBoxProps {
     currentUser: Member;
@@ -15,6 +16,7 @@ interface BallotBoxProps {
 export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, members, candidacyResponses, nominations, onVoteComplete }) => {
     const [votes, setVotes] = useState<Record<string, string>>({});
     const [step, setStep] = useState<'VOTE' | 'REVIEW' | 'SUCCESS'>('VOTE');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const candidatesByPosition = useMemo(() => {
         const map: Record<string, Member[]> = {};
@@ -28,6 +30,30 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
 
     const handleSelect = (positionId: string, candidateId: string) => {
         setVotes(prev => ({ ...prev, [positionId]: candidateId }));
+    };
+
+    const handleVoteSubmission = async () => {
+        setIsSubmitting(true);
+        try {
+            const voteRecords = Object.entries(votes).map(([posId, candId]) => ({
+                voter_id: currentUser.id,
+                position_id: posId,
+                candidate_id: candId
+            }));
+
+            const { error } = await supabase
+                .from('votes')
+                .insert(voteRecords);
+
+            if (error) throw error;
+
+            setStep('SUCCESS');
+            onVoteComplete();
+        } catch (error) {
+            console.error("Error submitting votes:", error);
+            alert("Failed to submit votes. Please try again.");
+            setIsSubmitting(false);
+        }
     };
 
     const isComplete = useMemo(() => {
@@ -188,14 +214,14 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
                 >
                     Back to Ballot
                 </button>
+
                 <button
-                    onClick={() => {
-                        setStep('SUCCESS');
-                        onVoteComplete();
-                    }}
-                    className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-3 rounded-lg font-bold shadow-lg shadow-emerald-900/20 transition-all transform active:scale-95"
+                    onClick={handleVoteSubmission}
+                    disabled={isSubmitting}
+                    className="bg-emerald-600 hover:bg-emerald-500 text-white px-8 py-3 rounded-lg font-bold shadow-lg shadow-emerald-900/20 transition-all transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
-                    Submit Official Vote
+                    {isSubmitting && <Loader2 className="animate-spin" size={18} />}
+                    {isSubmitting ? 'Submitting...' : 'Submit Official Vote'}
                 </button>
             </div>
         </div>
