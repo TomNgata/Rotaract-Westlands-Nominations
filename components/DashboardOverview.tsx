@@ -116,7 +116,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ nomination
 
           return (
             <button
-              onClick={onAddNomination}
+              disabled={true}
               className={`px-6 py-3 rounded-lg font-bold transition-all shadow-lg inline-flex items-center justify-center space-x-2 group bg-slate-200 text-slate-400 cursor-not-allowed shadow-none`}
             >
               <span>Nominations Closed</span>
