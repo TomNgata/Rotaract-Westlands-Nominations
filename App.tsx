@@ -7,7 +7,9 @@ import { NominationForm } from './components/NominationForm';
 import { CommitteePortal } from './components/CommitteePortal';
 import { MyCandidacy } from './components/MyCandidacy';
 import { POSITIONS, MOCK_MEMBERS, ELECTION_SCHEDULE } from './constants';
-import { Nomination, Member, CandidacyResponse } from './types';
+import { Nomination, Member, CandidacyResponse, Vote } from './types';
+import { BallotBox } from './components/BallotBox';
+import { CheckCircle } from 'lucide-react';
 
 import { supabase } from './services/supabaseClient';
 import { SpeedInsights } from "@vercel/speed-insights/react"
@@ -16,6 +18,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
   const [nominations, setNominations] = useState<Nomination[]>([]);
   const [candidacyResponses, setCandidacyResponses] = useState<CandidacyResponse[]>([]);
+  const [votes, setVotes] = useState<Vote[]>([]);
   const [members, setMembers] = useState<Member[]>([]);
   const [showNominationModal, setShowNominationModal] = useState(false);
   const [currentUser, setCurrentUser] = useState<Member | null>(null);
@@ -77,6 +80,23 @@ export default function App() {
             positionId: r.position_id,
             status: r.status as any,
             timestamp: new Date(r.created_at).getTime()
+          })));
+        }
+
+        // Fetch Votes
+        const { data: votesData, error: votesError } = await supabase
+          .from('votes')
+          .select('*');
+
+        if (votesError) {
+          console.log("Votes table might not exist yet", votesError);
+        } else {
+          setVotes(votesData.map(v => ({
+            id: v.id,
+            voterId: v.voter_id,
+            positionId: v.position_id,
+            candidateId: v.candidate_id,
+            timestamp: new Date(v.created_at).getTime()
           })));
         }
 
@@ -294,6 +314,44 @@ export default function App() {
             nominations={nominations}
             positions={POSITIONS}
             members={members}
+          />
+        );
+      case 'vote':
+        const hasVoted = votes.some(v => v.voterId === currentUser.id);
+
+        if (hasVoted) {
+          return (
+            <div className="flex flex-col items-center justify-center py-20 animate-in zoom-in duration-500">
+              <div className="bg-emerald-900/20 p-8 rounded-full mb-6">
+                <CheckCircle className="text-emerald-500" size={64} />
+              </div>
+              <h2 className="text-3xl font-bold text-slate-100 mb-2">Vote Cast Successfully</h2>
+              <p className="text-slate-400 max-w-md text-center">
+                Thank you for participating in the 2026 Elections. Your digital ballot has been securely recorded.
+              </p>
+              <div className="mt-8">
+                <button
+                  onClick={() => setActiveTab('overview')}
+                  className="text-blue-400 hover:text-blue-300 font-bold underline decoration-blue-500/30"
+                >
+                  Return to Dashboard
+                </button>
+              </div>
+            </div>
+          );
+        }
+
+        return (
+          <BallotBox
+            currentUser={currentUser}
+            positions={POSITIONS}
+            members={members}
+            candidacyResponses={candidacyResponses}
+            onVoteComplete={() => {
+              // Re-fetch votes or optimistic update
+              alert("Vote submitted successfully!");
+              window.location.reload(); // Simple reload to refresh state and show success screen
+            }}
           />
         );
       default:

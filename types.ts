@@ -53,3 +53,11 @@ export interface CandidacyResponse {
   status: CandidacyStatus;
   timestamp: number;
 }
+
+export interface Vote {
+  id: string;
+  voterId: string;
+  positionId: string;
+  candidateId: string;
+  timestamp: number;
+}
