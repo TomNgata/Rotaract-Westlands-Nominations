@@ -28,6 +28,9 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
   // -- Candidate Vetting State (Local MVP) --
   const [disqualifiedCandidates, setDisqualifiedCandidates] = useState<Set<string>>(new Set());
 
+  // -- Report Drilldown State --
+  const [expandedPositionId, setExpandedPositionId] = useState<string | null>(null);
+
   // --------------------------------------------------------------------------
   // Tab 1: Nominations Logic
   // --------------------------------------------------------------------------
@@ -177,13 +180,27 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
       noms.filter(n => n.reviewStatus === 'APPROVED').forEach(n => {
         candidateMap.set(n.nomineeId, (candidateMap.get(n.nomineeId) || 0) + 1);
       });
-      const qualifiedCandidatesCount = Array.from(candidateMap.values()).filter(c => c >= 2).length;
+
+      const qualifiedCandidatesData = Array.from(candidateMap.entries())
+        .filter(([_, count]) => count >= 2)
+        .map(([memberId, count]) => {
+          const member = members.find(m => m.id === memberId);
+          const isDisqualified = disqualifiedCandidates.has(`${memberId}-${p.id}`);
+          return {
+            id: memberId,
+            name: member?.name || 'Unknown',
+            count,
+            isDisqualified
+          };
+        })
+        .filter(c => !c.isDisqualified); // Only show qualified actively
 
       return {
+        id: p.id,
         title: p.title,
         total: noms.length,
         approved: approvedCount,
-        qualifiedCandidates: qualifiedCandidatesCount
+        qualifiedCandidates: qualifiedCandidatesData
       };
     });
 
@@ -230,12 +247,12 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
         mistakenNominators
       }
     };
-  }, [nominations, positions, members]);
+  }, [nominations, positions, members, disqualifiedCandidates]);
 
   const downloadReport = () => {
     // Generate CSV content
     const headers = ['Metric', 'Value'];
-    const rows = [
+    const rows: (string | number)[][] = [
       ['Total Nominations', reportStats.total],
       ['Approved Nominations', reportStats.approved],
       ['Spoilt / Rejected', reportStats.spoiled],
@@ -250,8 +267,13 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
       ['Mistaken (Duplicate) Nominations', reportStats.participation.mistakenNominators],
       ['', ''],
       ['Position Breakdown', ''],
-      ['Position', 'Total Noms', 'Approved Noms', 'Qualified Candidates'],
-      ...reportStats.positionBreakdown.map(p => [p.title, p.total, p.approved, p.qualifiedCandidates])
+      ['Position', 'Total Noms', 'Approved Noms', 'Qualified Candidates List (Separated by |)'],
+      ...reportStats.positionBreakdown.map(p => [
+        p.title,
+        p.total,
+        p.approved,
+        p.qualifiedCandidates.map(c => `${c.name} (${c.count})`).join(" | ")
+      ])
     ];
 
     const csvContent = "data:text/csv;charset=utf-8,"
@@ -562,13 +584,44 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800">
-                {reportStats.positionBreakdown.map((stat, idx) => (
-                  <tr key={idx} className="hover:bg-slate-800/20">
-                    <td className="px-6 py-4 text-sm font-bold text-slate-300">{stat.title}</td>
-                    <td className="px-6 py-4 text-center font-mono text-slate-400">{stat.total}</td>
-                    <td className="px-6 py-4 text-center font-mono text-slate-400">{stat.approved}</td>
-                    <td className="px-6 py-4 text-center font-mono font-bold text-emerald-400 bg-emerald-500/5">{stat.qualifiedCandidates}</td>
-                  </tr>
+                {reportStats.positionBreakdown.map((stat) => (
+                  <React.Fragment key={stat.id}>
+                    <tr
+                      className="hover:bg-slate-800/20 cursor-pointer transition-colors group"
+                      onClick={() => setExpandedPositionId(expandedPositionId === stat.id ? null : stat.id)}
+                    >
+                      <td className="px-6 py-4 text-sm font-bold text-slate-300 flex items-center space-x-2">
+                        <span className="text-slate-500 text-xs px-1.5 py-0.5 rounded bg-slate-800 group-hover:bg-blue-600/20 group-hover:text-blue-400 transition-colors">
+                          {expandedPositionId === stat.id ? '▼' : '▶'}
+                        </span>
+                        <span>{stat.title}</span>
+                      </td>
+                      <td className="px-6 py-4 text-center font-mono text-slate-400">{stat.total}</td>
+                      <td className="px-6 py-4 text-center font-mono text-slate-400">{stat.approved}</td>
+                      <td className="px-6 py-4 text-center font-mono font-bold text-emerald-400 bg-emerald-500/5">{stat.qualifiedCandidates.length}</td>
+                    </tr>
+                    {expandedPositionId === stat.id && (
+                      <tr className="bg-slate-900/50">
+                        <td colSpan={4} className="px-6 py-4 border-b border-slate-800 shadow-inner">
+                          <div className="pl-6 border-l-2 border-slate-700">
+                            <div className="text-xs text-slate-500 uppercase font-bold tracking-wider mb-3">Qualified Candidates</div>
+                            {stat.qualifiedCandidates.length > 0 ? (
+                              <ul className="space-y-2">
+                                {stat.qualifiedCandidates.map((cand, i) => (
+                                  <li key={i} className="flex items-center justify-between text-sm p-2 rounded hover:bg-slate-800/50 bg-slate-950/30 border border-slate-800/50">
+                                    <span className="text-slate-200 font-medium">{cand.name}</span>
+                                    <span className="text-emerald-400 font-mono text-xs font-bold bg-emerald-500/10 px-2 py-1 rounded-full">{cand.count} nominations</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : (
+                              <div className="text-slate-600 text-sm italic py-2">No qualified candidates (≥2 noms) found yet.</div>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
                 ))}
               </tbody>
             </table>
