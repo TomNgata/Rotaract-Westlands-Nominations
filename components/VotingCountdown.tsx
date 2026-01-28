@@ -72,11 +72,11 @@ export const VotingCountdown: React.FC = () => {
              relative overflow-hidden rounded-xl border p-6 text-center animate-in fade-in zoom-in duration-500
              ${timeLeft.status === 'ACTIVE'
                 ? 'bg-gradient-to-r from-emerald-900/40 to-slate-900 border-emerald-500/30 shadow-lg shadow-emerald-900/10'
-                : 'bg-gradient-to-r from-blue-900/40 to-slate-900 border-blue-500/30 shadow-lg shadow-blue-900/10'}
+                : 'bg-gradient-to-r from-amber-900/40 to-slate-900 border-amber-500/30 shadow-lg shadow-amber-900/10'}
         `}>
             {/* Background Icon */}
             <div className="absolute -right-4 -top-4 opacity-10">
-                <Timer size={100} />
+                <Timer size={100} className={timeLeft.status === 'ACTIVE' ? 'text-emerald-500' : 'text-amber-500'} />
             </div>
 
             <div className="relative z-10">
@@ -84,7 +84,7 @@ export const VotingCountdown: React.FC = () => {
                     <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border
                         ${timeLeft.status === 'ACTIVE'
                             ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/20'
-                            : 'bg-blue-500/20 text-blue-400 border-blue-500/20'}
+                            : 'bg-amber-500/20 text-amber-400 border-amber-500/20'}
                     `}>
                         {timeLeft.status === 'ACTIVE' ? 'Polls Open' : 'Voting Starts In'}
                     </span>
@@ -99,7 +99,7 @@ export const VotingCountdown: React.FC = () => {
                     ].map((item, i) => (
                         <div key={i} className="flex flex-col items-center">
                             <div className="w-full bg-slate-950/50 rounded-lg py-3 border border-slate-700/50 backdrop-blur-sm">
-                                <span className={`text-2xl md:text-3xl font-mono font-bold ${timeLeft.status === 'ACTIVE' ? 'text-white' : 'text-blue-100'}`}>
+                                <span className={`text-2xl md:text-3xl font-mono font-bold ${timeLeft.status === 'ACTIVE' ? 'text-white' : 'text-amber-100'}`}>
                                     {String(item.value).padStart(2, '0')}
                                 </span>
                             </div>
