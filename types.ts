@@ -43,3 +43,13 @@ export interface DashboardStats {
   participationRate: number;
   qualifiedCandidates: number;
 }
+
+export type CandidacyStatus = 'ACCEPTED' | 'DECLINED' | 'PENDING';
+
+export interface CandidacyResponse {
+  id: string;
+  memberId: string;
+  positionId: string;
+  status: CandidacyStatus;
+  timestamp: number;
+}

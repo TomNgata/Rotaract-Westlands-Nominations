@@ -10,7 +10,8 @@ import {
   X,
   ShieldCheck,
   Lock,
-  MoreHorizontal
+  MoreHorizontal,
+  Briefcase
 } from 'lucide-react';
 import { Member } from '../types';
 
@@ -102,6 +103,12 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTa
               label="My Nominations"
               isActive={activeTab === 'nominations'}
               onClick={() => { setActiveTab('nominations'); setIsSidebarOpen(false); }}
+            />
+            <NavItem
+              icon={<Briefcase size={18} />}
+              label="My Candidacy"
+              isActive={activeTab === 'candidacy'}
+              onClick={() => { setActiveTab('candidacy'); setIsSidebarOpen(false); }}
             />
           </div>
 

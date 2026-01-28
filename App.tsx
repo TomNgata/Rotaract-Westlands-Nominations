@@ -5,6 +5,7 @@ import { Login } from './components/Login';
 import { DashboardOverview } from './components/DashboardOverview';
 import { NominationForm } from './components/NominationForm';
 import { CommitteePortal } from './components/CommitteePortal';
+import { MyCandidacy } from './components/MyCandidacy';
 import { POSITIONS, MOCK_MEMBERS, ELECTION_SCHEDULE } from './constants';
 import { Nomination, Member } from './types';
 
@@ -265,6 +266,15 @@ export default function App() {
             members={members}
             positions={POSITIONS}
             onReview={handleReviewNomination}
+          />
+        );
+      case 'candidacy':
+        return (
+          <MyCandidacy
+            currentUser={currentUser}
+            nominations={nominations}
+            positions={POSITIONS}
+            members={members}
           />
         );
       default:
