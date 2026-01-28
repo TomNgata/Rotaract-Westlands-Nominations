@@ -14,7 +14,8 @@ import {
   AlertTriangle
 } from 'lucide-react';
 import { Nomination, Position, Member, DashboardStats } from '../types';
-import { ELECTION_SCHEDULE } from '../constants';
+import { Nomination, Position, Member, DashboardStats } from '../types';
+import { VotingCountdown } from './VotingCountdown';
 
 interface DashboardOverviewProps {
   nominations: Nomination[];
@@ -45,47 +46,6 @@ const StatCard: React.FC<{ title: string; value: string | number; icon: React.Re
 );
 
 export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ nominations, positions, members, onAddNomination }) => {
-  const [timeLeft, setTimeLeft] = useState('Loading...');
-  const [timerStatus, setTimerStatus] = useState<'UPCOMING' | 'ACTIVE' | 'CLOSED'>('UPCOMING');
-
-  useEffect(() => {
-    const updateTimer = () => {
-      const now = new Date().getTime();
-      const openTime = new Date(ELECTION_SCHEDULE.OPEN_DATE).getTime();
-      const closeTime = new Date(ELECTION_SCHEDULE.CLOSE_DATE).getTime();
-
-      let targetTime = openTime;
-      let status: 'UPCOMING' | 'ACTIVE' | 'CLOSED' = 'UPCOMING';
-
-      if (now < openTime) {
-        status = 'UPCOMING';
-        targetTime = openTime;
-      } else if (now >= openTime && now < closeTime) {
-        status = 'ACTIVE';
-        targetTime = closeTime;
-      } else {
-        status = 'CLOSED';
-        setTimeLeft('Nominations Closed');
-        setTimerStatus('CLOSED');
-        return;
-      }
-
-      setTimerStatus(status);
-
-      const distance = targetTime - now;
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
-    };
-
-    const interval = setInterval(updateTimer, 1000);
-    updateTimer(); // Initial call
-
-    return () => clearInterval(interval);
-  }, []);
 
   const stats: DashboardStats = useMemo(() => {
     const totalMembers = members.length;
@@ -126,19 +86,16 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ nomination
         </div>
         <button
           onClick={onAddNomination}
-          disabled={timerStatus !== 'ACTIVE'}
-          className={`px-6 py-3 rounded-lg font-bold transition-all shadow-lg inline-flex items-center justify-center space-x-2 group ${timerStatus === 'ACTIVE'
-              ? 'bg-cranberry-600 hover:bg-cranberry-700 text-white shadow-cranberry-900/20 active:scale-[0.98]'
-              : 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none'
-            }`}
+          className={`px-6 py-3 rounded-lg font-bold transition-all shadow-lg inline-flex items-center justify-center space-x-2 group bg-slate-200 text-slate-400 cursor-not-allowed shadow-none`}
         >
-          <span>{timerStatus === 'CLOSED' ? 'Nominations Closed' : 'Submit Nomination'}</span>
-          {timerStatus === 'ACTIVE' && <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />}
+          <span>Nominations Closed</span>
         </button>
       </div>
 
+      <VotingCountdown />
+
       {/* KPI Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <StatCard
           title="Total Nominations"
           value={stats.totalNominations}
@@ -161,13 +118,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ nomination
           colorClass="text-emerald-600"
           iconBg="bg-emerald-50"
         />
-        <StatCard
-          title={timerStatus === 'UPCOMING' ? "Nominations Open In" : timerStatus === 'ACTIVE' ? "Time Remaining" : "Status"}
-          value={timeLeft}
-          icon={<Clock size={20} className={timerStatus === 'ACTIVE' ? "text-emerald-600" : "text-amber-600"} />}
-          colorClass={timerStatus === 'ACTIVE' ? "text-emerald-600" : "text-amber-600"}
-          iconBg={timerStatus === 'ACTIVE' ? "bg-emerald-50" : "bg-amber-50"}
-        />
+
       </div>
 
       <div className="grid grid-cols-1 gap-8">

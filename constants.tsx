@@ -7,6 +7,11 @@ export const ELECTION_SCHEDULE = {
   CLOSE_DATE: '2026-01-25T19:00:00+03:00', // 48 hours later Sunday 7pm
 };
 
+export const VOTING_SCHEDULE = {
+  OPEN_DATE: '2026-01-28T19:00:00+03:00', // Wednesday 7pm
+  CLOSE_DATE: '2026-01-30T19:00:00+03:00', // Friday 7pm
+};
+
 export const POSITIONS: Position[] = [
   // Executive Board & Directors
   { id: 'sec', title: 'Secretary', category: PositionCategory.EXECUTIVE, description: 'Maintains minutes, membership records, and coordinates club documentation.', isElected: true, status: 'OPEN' },
