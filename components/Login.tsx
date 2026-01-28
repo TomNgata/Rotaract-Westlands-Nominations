@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { ShieldCheck, User, Key, ArrowRight, AlertCircle, Loader2, Clock } from 'lucide-react';
+import { ShieldCheck, User, Key, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
 import { Member } from '../types';
 import { supabase } from '../services/supabaseClient';
-import { ELECTION_SCHEDULE } from '../constants';
+import { NominationTimer } from './NominationTimer';
+import { VotingCountdown } from './VotingCountdown';
 
 interface LoginProps {
   onLogin: (user: Member) => void;
@@ -14,48 +15,7 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Timer State
-  const [timeLeft, setTimeLeft] = useState('Loading...');
-  const [timerStatus, setTimerStatus] = useState<'UPCOMING' | 'ACTIVE' | 'CLOSED'>('UPCOMING');
 
-  React.useEffect(() => {
-    const updateTimer = () => {
-      const now = new Date().getTime();
-      const openTime = new Date(ELECTION_SCHEDULE.OPEN_DATE).getTime();
-      const closeTime = new Date(ELECTION_SCHEDULE.CLOSE_DATE).getTime();
-
-      let targetTime = openTime;
-      let status: 'UPCOMING' | 'ACTIVE' | 'CLOSED' = 'UPCOMING';
-
-      if (now < openTime) {
-        status = 'UPCOMING';
-        targetTime = openTime;
-      } else if (now >= openTime && now < closeTime) {
-        status = 'ACTIVE';
-        targetTime = closeTime;
-      } else {
-        status = 'CLOSED';
-        setTimeLeft('Nominations Closed');
-        setTimerStatus('CLOSED');
-        return;
-      }
-
-      setTimerStatus(status);
-
-      const distance = targetTime - now;
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
-    };
-
-    const interval = setInterval(updateTimer, 1000);
-    updateTimer(); // Initial call
-
-    return () => clearInterval(interval);
-  }, []);
 
   const CONTACT_SUPPORT = " Please contact any member of the elections committee for support with any challenge.";
 
@@ -128,12 +88,9 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
         <div className="relative z-10 max-w-lg flex flex-col items-center text-center">
           {/* Desktop Timer */}
-          <div className="mb-8 inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md border border-white/20 px-4 py-2 rounded-full">
-            <Clock size={16} className={timerStatus === 'ACTIVE' ? "text-emerald-300" : "text-amber-300"} />
-            <span className="text-sm font-mono font-bold tracking-wider text-white">
-              {timerStatus === 'UPCOMING' ? "OPENS IN:" : timerStatus === 'ACTIVE' ? "CLOSING IN:" : "STATUS:"}
-              <span className={timerStatus === 'ACTIVE' ? "text-emerald-300 ml-2" : "text-amber-300 ml-2"}>{timeLeft}</span>
-            </span>
+          <div className="mb-8 flex flex-col items-center space-y-4">
+            <NominationTimer />
+            <VotingCountdown />
           </div>
 
           <div className="bg-white/10 backdrop-blur-sm p-8 rounded-3xl border border-white/10 shadow-2xl mb-8 inline-block transform hover:scale-105 transition-transform duration-500">
@@ -244,16 +201,13 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
             </button>
 
             {/* Mobile Timer - Creates Haste */}
-            <div className="lg:hidden mt-4 bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-center space-x-3 animate-pulse">
-              <Clock size={16} className={timerStatus === 'ACTIVE' ? "text-emerald-600" : "text-amber-600"} />
-              <div className="text-xs font-bold text-slate-700">
-                <span className="uppercase mr-1 opacity-70">
-                  {timerStatus === 'UPCOMING' ? "Starts In:" : timerStatus === 'ACTIVE' ? "Time Left:" : "Status:"}
-                </span>
-                <span className="font-mono text-sm">{timeLeft}</span>
+            <div className="lg:hidden mt-4 flex flex-col items-center space-y-2 bg-slate-50 border border-slate-200 rounded-xl p-3">
+              <NominationTimer />
+              <div className="w-full">
+                <VotingCountdown />
               </div>
             </div>
-          </form>
+            {/* End Mobile Timer */}</form>
 
           <div className="pt-8 border-t border-slate-100 text-center">
             <div className="inline-flex items-center space-x-2 text-slate-400 bg-slate-50 px-4 py-2 rounded-full mb-4">
