@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Nomination, Position, Member, DashboardStats } from '../types';
 import { VotingCountdown } from './VotingCountdown';
+import { NominationTimer } from './NominationTimer';
 
 interface DashboardOverviewProps {
   nominations: Nomination[];
@@ -78,6 +79,11 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ nomination
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500 font-body">
+      {/* Historical Nomination Timer (Top Left) */}
+      <div className="flex justify-start">
+        <NominationTimer />
+      </div>
+
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-6">
         <div>
           <h2 className="text-3xl font-heading font-bold italic text-cranberry-600">Dashboard Overview</h2>
