@@ -60,7 +60,7 @@ export const VotingCountdown: React.FC<VotingCountdownProps> = ({ startDate, end
         }, 1000);
 
         return () => clearInterval(timer);
-    }, []);
+    }, [startDate, endDate]);
 
     if (!timeLeft) return null;
 
@@ -132,12 +132,11 @@ export const VotingCountdown: React.FC<VotingCountdownProps> = ({ startDate, end
 
                 {timeLeft.status === 'UPCOMING' && (
                     <p className="mt-5 text-cranberry-900 text-xs font-bold flex items-center justify-center opacity-80">
-                        <p className="mt-5 text-cranberry-900 text-xs font-bold flex items-center justify-center opacity-80">
-                            <Calendar size={14} className="mr-1.5" />
-                            Begins {new Date(startDate || VOTING_SCHEDULE.OPEN_DATE).toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
-                        </p>
+                        <Calendar size={14} className="mr-1.5" />
+                        Begins {new Date(startDate || VOTING_SCHEDULE.OPEN_DATE).toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric', hour: 'numeric', minute: 'numeric' })}
+                    </p>
                 )}
-                    </div>
+            </div>
         </div>
-            );
+    );
 };

@@ -8,7 +8,8 @@ import {
   Download,
   ShieldAlert
 } from 'lucide-react';
-import { Nomination, Member, Position, CandidacyResponse, CandidacyStatus } from '../types';
+import { AdminConfig } from './AdminConfig';
+import { Nomination, Member, Position, CandidacyResponse, CandidacyStatus, ElectionSettings } from '../types';
 
 interface CommitteePortalProps {
   nominations: Nomination[];
@@ -16,9 +17,19 @@ interface CommitteePortalProps {
   positions: Position[];
   onReview: (nominationId: string, status: 'APPROVED' | 'REJECTED') => void;
   candidacyResponses: CandidacyResponse[];
+  settings: ElectionSettings | null;
+  onUpdateSettings: (settings: ElectionSettings) => void;
 }
 
-export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, members, positions, onReview, candidacyResponses }) => {
+export const CommitteePortal: React.FC<CommitteePortalProps> = ({
+  nominations,
+  members,
+  positions,
+  onReview,
+  candidacyResponses,
+  settings,
+  onUpdateSettings
+}) => {
   const [activeTab, setActiveTab] = useState<'NOMINATIONS' | 'CANDIDATES' | 'REPORT' | 'BALLOT_STATUS'>('NOMINATIONS');
 
   // -- Nominations State --
@@ -649,6 +660,18 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
                 className={`px-4 py-2 text-xs font-bold rounded ${!showPreview ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-slate-200'}`}
               >
                 Tracking View
+              </button>
+              <button
+                onClick={() => setActiveTab('candidates')}
+                className={`pb-2 px-4 font-bold border-b-2 transition-colors ${activeTab === 'candidates' ? 'border-slate-800 text-slate-800' : 'border-transparent text-slate-400 hover:text-slate-600'}`}
+              >
+                Candidate Status
+              </button>
+              <button
+                onClick={() => setActiveTab('settings')}
+                className={`pb-2 px-4 font-bold border-b-2 transition-colors ${activeTab === 'settings' ? 'border-slate-800 text-slate-800' : 'border-transparent text-slate-400 hover:text-slate-600'}`}
+              >
+                Settings
               </button>
               <button
                 onClick={() => setShowPreview(true)}
