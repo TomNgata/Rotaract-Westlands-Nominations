@@ -71,26 +71,26 @@ export const VotingCountdown: React.FC = () => {
         <div className={`
              relative overflow-hidden rounded-xl border p-6 text-center animate-in fade-in zoom-in duration-500
              ${timeLeft.status === 'ACTIVE'
-                ? 'bg-gradient-to-r from-emerald-900/40 to-slate-900 border-emerald-500/30 shadow-lg shadow-emerald-900/10'
-                : 'bg-gradient-to-r from-amber-900/40 to-slate-900 border-amber-500/30 shadow-lg shadow-amber-900/10'}
+                ? 'bg-gradient-to-br from-emerald-400 to-emerald-500 border-emerald-600 shadow-lg shadow-emerald-900/10'
+                : 'bg-gradient-to-br from-amber-300 to-amber-500 border-amber-400 shadow-xl shadow-amber-500/20'}
         `}>
             {/* Background Icon */}
-            <div className="absolute -right-4 -top-4 opacity-10">
-                <Timer size={100} className={timeLeft.status === 'ACTIVE' ? 'text-emerald-500' : 'text-amber-500'} />
+            <div className="absolute -right-8 -top-8 opacity-20 rotate-12">
+                <Timer size={140} className="text-white mix-blend-overlay" />
             </div>
 
             <div className="relative z-10">
                 <div className="flex items-center justify-center space-x-2 mb-4">
-                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border
+                    <span className={`px-4 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-widest border shadow-sm
                         ${timeLeft.status === 'ACTIVE'
-                            ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/20'
-                            : 'bg-amber-500/20 text-amber-400 border-amber-500/20'}
+                            ? 'bg-white text-emerald-600 border-white/50'
+                            : 'bg-cranberry-700 text-white border-white/20'}
                     `}>
                         {timeLeft.status === 'ACTIVE' ? 'Polls Open' : 'Voting Starts In'}
                     </span>
                 </div>
 
-                <div className="grid grid-cols-4 gap-2 max-w-sm mx-auto">
+                <div className="grid grid-cols-4 gap-3 max-w-sm mx-auto">
                     {[
                         { label: 'Days', value: timeLeft.days },
                         { label: 'Hours', value: timeLeft.hours },
@@ -98,28 +98,33 @@ export const VotingCountdown: React.FC = () => {
                         { label: 'Secs', value: timeLeft.seconds },
                     ].map((item, i) => (
                         <div key={i} className="flex flex-col items-center">
-                            <div className="w-full bg-slate-950/50 rounded-lg py-3 border border-slate-700/50 backdrop-blur-sm">
-                                <span className={`text-2xl md:text-3xl font-mono font-bold ${timeLeft.status === 'ACTIVE' ? 'text-white' : 'text-amber-100'}`}>
+                            <div className="w-full bg-white/90 rounded-xl py-3 border border-white/50 backdrop-blur-sm shadow-inner relative overflow-hidden group">
+                                <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-50 transition-opacity"></div>
+                                <span className={`text-3xl md:text-3xl font-mono font-bold tracking-tight
+                                    ${timeLeft.status === 'ACTIVE' ? 'text-emerald-700' : 'text-cranberry-800'}
+                                `}>
                                     {String(item.value).padStart(2, '0')}
                                 </span>
                             </div>
-                            <span className="text-[10px] uppercase text-slate-500 font-bold mt-1 tracking-wider">{item.label}</span>
+                            <span className={`text-[10px] uppercase font-bold mt-2 tracking-widest ${timeLeft.status === 'ACTIVE' ? 'text-emerald-900' : 'text-amber-950'}`}>
+                                {item.label}
+                            </span>
                         </div>
                     ))}
                 </div>
 
                 {timeLeft.status === 'ACTIVE' && (
                     <div className="mt-6">
-                        <p className="text-emerald-400 text-sm font-medium animate-pulse">
-                            Voting is live! Cast your ballot now.
+                        <p className="text-white text-sm font-bold animate-pulse drop-shadow-md bg-emerald-600/30 py-1 px-3 rounded-full inline-block">
+                            Voting is Live!
                         </p>
                     </div>
                 )}
 
                 {timeLeft.status === 'UPCOMING' && (
-                    <p className="mt-4 text-slate-400 text-xs flex items-center justify-center">
-                        <Calendar size={12} className="mr-1" />
-                        Begins Wednesday, Jan 28th at 7:00 PM
+                    <p className="mt-5 text-cranberry-900 text-xs font-bold flex items-center justify-center opacity-80">
+                        <Calendar size={14} className="mr-1.5" />
+                        Begins Wednesday, Jan 28th @ 7:00 PM
                     </p>
                 )}
             </div>
