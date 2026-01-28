@@ -14,7 +14,6 @@ import {
   AlertTriangle
 } from 'lucide-react';
 import { Nomination, Position, Member, DashboardStats } from '../types';
-import { Nomination, Position, Member, DashboardStats } from '../types';
 import { VotingCountdown } from './VotingCountdown';
 
 interface DashboardOverviewProps {
