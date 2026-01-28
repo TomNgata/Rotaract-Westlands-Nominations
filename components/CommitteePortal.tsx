@@ -8,17 +8,18 @@ import {
   Download,
   ShieldAlert
 } from 'lucide-react';
-import { Nomination, Member, Position } from '../types';
+import { Nomination, Member, Position, CandidacyResponse, CandidacyStatus } from '../types';
 
 interface CommitteePortalProps {
   nominations: Nomination[];
   members: Member[];
   positions: Position[];
   onReview: (nominationId: string, status: 'APPROVED' | 'REJECTED') => void;
+  candidacyResponses: CandidacyResponse[];
 }
 
-export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, members, positions, onReview }) => {
-  const [activeTab, setActiveTab] = useState<'NOMINATIONS' | 'CANDIDATES' | 'REPORT'>('NOMINATIONS');
+export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, members, positions, onReview, candidacyResponses }) => {
+  const [activeTab, setActiveTab] = useState<'NOMINATIONS' | 'CANDIDATES' | 'REPORT' | 'BALLOT_STATUS'>('NOMINATIONS');
 
   // -- Nominations State --
   const [filter, setFilter] = useState<'ALL' | 'PENDING' | 'APPROVED' | 'REJECTED'>('ALL');
@@ -30,6 +31,9 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
 
   // -- Report Drilldown State --
   const [expandedPositionId, setExpandedPositionId] = useState<string | null>(null);
+
+  // -- Ballot Preview State --
+  const [showPreview, setShowPreview] = useState(false);
 
   // --------------------------------------------------------------------------
   // Tab 1: Nominations Logic
@@ -308,8 +312,8 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
               key={tab}
               onClick={() => { setActiveTab(tab); setSortConfig(null); }}
               className={`px-4 py-2 text-xs font-bold rounded-md transition-all ${activeTab === tab
-                  ? 'bg-blue-600 text-white shadow-lg'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                ? 'bg-blue-600 text-white shadow-lg'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
                 }`}
             >
               {tab}
@@ -477,8 +481,8 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
                   <td className="px-6 py-4 text-center font-mono font-bold text-slate-300">{c.count}</td>
                   <td className="px-6 py-4">
                     <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${c.status === 'QUALIFIED' ? 'bg-emerald-500/10 text-emerald-400' :
-                        c.status === 'DISQUALIFIED' ? 'bg-red-500/10 text-red-400' :
-                          'bg-amber-500/10 text-amber-400'
+                      c.status === 'DISQUALIFIED' ? 'bg-red-500/10 text-red-400' :
+                        'bg-amber-500/10 text-amber-400'
                       }`}>
                       {c.status.replace('_', ' ')}
                     </span>
@@ -487,8 +491,8 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
                     <button
                       onClick={() => toggleCandidateStatus(c.id)}
                       className={`text-xs font-bold px-3 py-1.5 rounded-lg border transition-all ${c.status === 'DISQUALIFIED'
-                          ? 'bg-slate-800 text-slate-400 border-slate-700 hover:bg-emerald-900/20 hover:text-emerald-400 hover:border-emerald-800'
-                          : 'bg-red-900/10 text-red-400 border-red-900/20 hover:bg-red-900/20'
+                        ? 'bg-slate-800 text-slate-400 border-slate-700 hover:bg-emerald-900/20 hover:text-emerald-400 hover:border-emerald-800'
+                        : 'bg-red-900/10 text-red-400 border-red-900/20 hover:bg-red-900/20'
                         }`}
                     >
                       {c.status === 'DISQUALIFIED' ? 'Restore Qualification' : 'Disqualify'}
@@ -625,6 +629,118 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({ nominations, m
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'BALLOT_STATUS' && (
+        <div className="space-y-6">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <h3 className="text-lg font-bold text-slate-100 flex items-center">
+                Ballot Tracker
+                {showPreview && <span className="ml-3 px-2 py-0.5 bg-blue-600 text-[10px] rounded uppercase">Preview Mode</span>}
+              </h3>
+              <p className="text-sm text-slate-400">Track candidate acceptances and preview the final voting ballot.</p>
+            </div>
+            <div className="flex items-center bg-slate-900 p-1 rounded-lg border border-slate-700">
+              <button
+                onClick={() => setShowPreview(false)}
+                className={`px-4 py-2 text-xs font-bold rounded ${!showPreview ? 'bg-slate-700 text-white' : 'text-slate-400 hover:text-slate-200'}`}
+              >
+                Tracking View
+              </button>
+              <button
+                onClick={() => setShowPreview(true)}
+                className={`px-4 py-2 text-xs font-bold rounded ${showPreview ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}
+              >
+                Preview Ballot
+              </button>
+            </div>
+          </div>
+
+          <div className="grid gap-6">
+            {reportStats.positionBreakdown.map(pos => {
+              // Merge qualified data with response data
+              const finalCandidates = pos.qualifiedCandidates.map(cand => {
+                const response = candidacyResponses.find(r => r.memberId === cand.id && r.positionId === pos.id);
+                const status = response ? response.status : 'PENDING';
+                return { ...cand, status };
+              });
+
+              const visibleCandidates = showPreview
+                ? finalCandidates.filter(c => c.status === 'ACCEPTED')
+                : finalCandidates;
+
+              if (showPreview && visibleCandidates.length === 0) return null;
+
+              return (
+                <div key={pos.id} className="bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden">
+                  <div className="p-4 bg-slate-900 border-b border-slate-800 flex justify-between items-center">
+                    <h4 className="font-bold text-slate-200">{pos.title}</h4>
+                    <span className="text-xs font-mono text-slate-500">
+                      {showPreview
+                        ? `${visibleCandidates.length} Candidates Running`
+                        : `${visibleCandidates.filter(c => c.status === 'ACCEPTED').length}/${visibleCandidates.length} Accepted`}
+                    </span>
+                  </div>
+
+                  {visibleCandidates.length > 0 ? (
+                    <div className="divide-y divide-slate-800">
+                      {visibleCandidates.map(cand => (
+                        <div key={cand.id} className="p-4 flex items-center justify-between hover:bg-slate-800/30 transition-colors">
+                          <div className="flex items-center space-x-3">
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold
+                                              ${showPreview ? 'bg-blue-900/40 text-blue-400 border border-blue-500/20' : 'bg-slate-800 text-slate-400'}
+                                           `}>
+                              {cand.name.charAt(0)}
+                            </div>
+                            <div>
+                              <div className="text-sm font-bold text-slate-200">{cand.name}</div>
+                              {!showPreview && <div className="text-[10px] text-slate-500">{cand.count} nominations</div>}
+                            </div>
+                          </div>
+
+                          {!showPreview && (
+                            <div>
+                              <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest border
+                                                  ${cand.status === 'ACCEPTED' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
+                                  cand.status === 'DECLINED' ? 'bg-red-500/10 text-red-400 border-red-500/20' :
+                                    'bg-amber-500/10 text-amber-400 border-amber-500/20'}
+                                               `}>
+                                {cand.status}
+                              </span>
+                            </div>
+                          )}
+
+                          {showPreview && (
+                            <div className="text-emerald-400">
+                              <CheckCircle size={18} />
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-8 text-center text-slate-500 text-xs italic">
+                      {showPreview ? 'No confirmed candidates for this position yet.' : 'No qualified candidates found.'}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+            {showPreview && reportStats.positionBreakdown.every(p => {
+              const hasAccepted = p.qualifiedCandidates.some(c =>
+                candidacyResponses.find(r => r.memberId === c.id && r.positionId === p.id)?.status === 'ACCEPTED'
+              );
+              return !hasAccepted;
+            }) && (
+                <div className="p-12 text-center border border-dashed border-slate-700 rounded-xl">
+                  <p className="text-slate-400 font-bold">Ballot Empty</p>
+                  <p className="text-slate-600 text-sm mt-2">No candidates have accepted their nominations yet.</p>
+                </div>
+              )}
           </div>
         </div>
       )}

@@ -7,7 +7,7 @@ import { NominationForm } from './components/NominationForm';
 import { CommitteePortal } from './components/CommitteePortal';
 import { MyCandidacy } from './components/MyCandidacy';
 import { POSITIONS, MOCK_MEMBERS, ELECTION_SCHEDULE } from './constants';
-import { Nomination, Member } from './types';
+import { Nomination, Member, CandidacyResponse } from './types';
 
 import { supabase } from './services/supabaseClient';
 import { SpeedInsights } from "@vercel/speed-insights/react"
@@ -15,6 +15,7 @@ import { SpeedInsights } from "@vercel/speed-insights/react"
 export default function App() {
   const [activeTab, setActiveTab] = useState('overview');
   const [nominations, setNominations] = useState<Nomination[]>([]);
+  const [candidacyResponses, setCandidacyResponses] = useState<CandidacyResponse[]>([]);
   const [members, setMembers] = useState<Member[]>([]);
   const [showNominationModal, setShowNominationModal] = useState(false);
   const [currentUser, setCurrentUser] = useState<Member | null>(null);
@@ -61,6 +62,23 @@ export default function App() {
           reviewStatus: n.review_status as any
         }));
         setNominations(mappedNoms);
+
+        // Fetch Candidacy Responses
+        const { data: respData, error: respError } = await supabase
+          .from('candidacy_responses')
+          .select('*');
+
+        if (respError) {
+          console.log("Candidacy responses table might not exist yet", respError);
+        } else {
+          setCandidacyResponses(respData.map(r => ({
+            id: r.id,
+            memberId: r.member_id,
+            positionId: r.position_id,
+            status: r.status as any,
+            timestamp: new Date(r.created_at).getTime()
+          })));
+        }
 
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -266,6 +284,7 @@ export default function App() {
             members={members}
             positions={POSITIONS}
             onReview={handleReviewNomination}
+            candidacyResponses={candidacyResponses}
           />
         );
       case 'candidacy':
