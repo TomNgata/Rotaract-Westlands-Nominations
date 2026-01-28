@@ -9,6 +9,7 @@ import { MyCandidacy } from './components/MyCandidacy';
 import { POSITIONS, MOCK_MEMBERS, ELECTION_SCHEDULE } from './constants';
 import { Nomination, Member, CandidacyResponse, Vote } from './types';
 import { BallotBox } from './components/BallotBox';
+import { TallyingStation } from './components/TallyingStation';
 import { CheckCircle } from 'lucide-react';
 
 import { supabase } from './services/supabaseClient';

@@ -86,12 +86,12 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
                                                 onClick={() => handleSelect(pos.id, cand.id)}
                                                 className={`cursor-pointer relative flex items-center p-4 rounded-xl border-2 transition-all
                                                     ${isSelected
-                                                        ? 'bg-blue-900/40 border-blue-500 shadow-lg shadow-blue-900/20'
+                                                        ? 'bg-cranberry-900/20 border-cranberry-500 shadow-lg shadow-cranberry-900/10'
                                                         : 'bg-slate-900 border-slate-800 hover:border-slate-600 hover:bg-slate-800'}
                                                 `}
                                             >
                                                 <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold mr-4 shrink-0
-                                                    ${isSelected ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-500 border border-slate-700'}
+                                                    ${isSelected ? 'bg-cranberry-600 text-white' : 'bg-slate-800 text-slate-500 border border-slate-700'}
                                                 `}>
                                                     {cand.name.charAt(0)}
                                                 </div>
@@ -100,7 +100,7 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
                                                     <p className="text-xs text-slate-500">Rotary ID: {cand.rotaryId}</p>
                                                 </div>
                                                 {isSelected && (
-                                                    <div className="absolute top-4 right-4 text-blue-400">
+                                                    <div className="absolute top-4 right-4 text-cranberry-400">
                                                         <CheckCircle size={20} />
                                                     </div>
                                                 )}
@@ -122,11 +122,11 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
 
     const renderReview = () => (
         <div className="space-y-6 animate-in zoom-in duration-300">
-            <div className="bg-blue-900/20 border border-blue-500/30 p-6 rounded-xl flex items-start space-x-4">
-                <ShieldCheck className="text-blue-400 shrink-0" size={32} />
+            <div className="bg-cranberry-900/20 border border-cranberry-500/30 p-6 rounded-xl flex items-start space-x-4">
+                <ShieldCheck className="text-cranberry-400 shrink-0" size={32} />
                 <div>
-                    <h3 className="text-blue-100 font-bold text-lg">Confirm Your Ballot</h3>
-                    <p className="text-blue-200/70 text-sm mt-1">
+                    <h3 className="text-cranberry-100 font-bold text-lg">Confirm Your Ballot</h3>
+                    <p className="text-cranberry-200/70 text-sm mt-1">
                         Please review your choices carefully. Once submitted, your vote is final and cannot be changed.
                     </p>
                 </div>
@@ -149,7 +149,7 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
                                 </div>
                             </div>
                             {selectedCandidate && (
-                                <div className="w-8 h-8 rounded-full bg-blue-900/50 text-blue-400 flex items-center justify-center font-bold text-xs border border-blue-500/20">
+                                <div className="w-8 h-8 rounded-full bg-cranberry-900/50 text-cranberry-400 flex items-center justify-center font-bold text-xs border border-cranberry-500/20">
                                     {selectedCandidate.name.charAt(0)}
                                 </div>
                             )}
@@ -174,13 +174,13 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
                     return (
                         <div key={s} className="flex flex-col items-center bg-slate-950 px-2 rounded">
                             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 border-2
-                                ${isActive ? 'bg-blue-600 border-blue-600 text-white scale-110' :
+                                ${isActive ? 'bg-cranberry-600 border-cranberry-600 text-white scale-110' :
                                     isCompleted ? 'bg-emerald-600 border-emerald-600 text-white' :
                                         'bg-slate-900 border-slate-700 text-slate-500'}
                             `}>
                                 {isCompleted ? <CheckCircle size={14} /> : idx + 1}
                             </div>
-                            <span className={`text-[10px] uppercase font-bold mt-2 tracking-widest ${isActive ? 'text-blue-400' : 'text-slate-600'}`}>
+                            <span className={`text-[10px] uppercase font-bold mt-2 tracking-widest ${isActive ? 'text-cranberry-400' : 'text-slate-600'}`}>
                                 {s}
                             </span>
                         </div>
@@ -227,7 +227,7 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
                             if (step === 'DIRECTORS') setStep('REVIEW');
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                         }}
-                        className="flex items-center px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold shadow-lg shadow-blue-900/20 active:scale-95 transition-all w-full md:w-auto justify-center"
+                        className="flex items-center px-8 py-3 bg-cranberry-600 hover:bg-cranberry-500 text-white rounded-xl font-bold shadow-lg shadow-cranberry-900/20 active:scale-95 transition-all w-full md:w-auto justify-center"
                     >
                         Next Step
                         <ChevronRight size={20} className="ml-2" />

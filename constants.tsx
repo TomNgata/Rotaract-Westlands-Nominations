@@ -8,7 +8,7 @@ export const ELECTION_SCHEDULE = {
 };
 
 export const VOTING_SCHEDULE = {
-  OPEN_DATE: '2026-01-28T08:00:00+03:00', // Testing Mode: 8 AM Today
+  OPEN_DATE: '2026-01-28T19:00:00+03:00', // Today 7pm
   CLOSE_DATE: '2026-01-30T19:00:00+03:00', // Friday 7pm
 };
 

@@ -11,7 +11,8 @@ import {
   ShieldCheck,
   Lock,
   MoreHorizontal,
-  Briefcase
+  Briefcase,
+  BarChart3
 } from 'lucide-react';
 import { Member } from '../types';
 import { VOTING_SCHEDULE } from '../constants';
@@ -140,6 +141,14 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTa
               isDisabled={!isCommittee}
               onClick={() => { setActiveTab('administration'); setIsSidebarOpen(false); }}
             />
+            {isCommittee && (
+              <NavItem
+                icon={<BarChart3 size={18} />}
+                label="Tallying Station"
+                isActive={activeTab === 'tallying'}
+                onClick={() => { setActiveTab('tallying'); setIsSidebarOpen(false); }}
+              />
+            )}
             <div className="pt-2">
               <button className="w-full flex items-center space-x-3 px-4 py-2.5 rounded-md text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition-colors font-medium text-sm">
                 <MoreHorizontal size={18} />
