@@ -16,7 +16,9 @@ export const ElectionsSetup: React.FC<ElectionsSetupProps> = ({ settings, onUpda
         voting_start: new Date().toISOString(),
         voting_end: new Date().toISOString(),
         require_two_seconds: true,
-        limit_one_position: true
+        limit_one_position: true,
+        allow_self_nomination: true,
+        require_good_standing: true
     };
 
     const [formData, setFormData] = useState<ElectionSettings>(settings || defaultSettings);
@@ -42,7 +44,9 @@ export const ElectionsSetup: React.FC<ElectionsSetupProps> = ({ settings, onUpda
                 voting_start: formatForInput(settings.voting_start),
                 voting_end: formatForInput(settings.voting_end),
                 require_two_seconds: settings.require_two_seconds ?? true,
-                limit_one_position: settings.limit_one_position ?? true
+                limit_one_position: settings.limit_one_position ?? true,
+                allow_self_nomination: settings.allow_self_nomination ?? true,
+                require_good_standing: settings.require_good_standing ?? true
             });
         }
     }, [settings]);
@@ -63,7 +67,9 @@ export const ElectionsSetup: React.FC<ElectionsSetupProps> = ({ settings, onUpda
                 voting_start: new Date(formData.voting_start).toISOString(),
                 voting_end: new Date(formData.voting_end).toISOString(),
                 require_two_seconds: formData.require_two_seconds,
-                limit_one_position: formData.limit_one_position
+                limit_one_position: formData.limit_one_position,
+                allow_self_nomination: formData.allow_self_nomination,
+                require_good_standing: formData.require_good_standing
             };
 
             // Optimistic update locally
@@ -226,6 +232,38 @@ export const ElectionsSetup: React.FC<ElectionsSetupProps> = ({ settings, onUpda
                                         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-cranberry-500 focus:ring-offset-2 ${formData.limit_one_position ? 'bg-cranberry-600' : 'bg-slate-200'}`}
                                     >
                                         <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${formData.limit_one_position ? 'translate-x-6' : 'translate-x-1'}`} />
+                                    </button>
+                                </div>
+
+                                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200">
+                                    <div>
+                                        <h4 className="font-bold text-slate-800">Allow Self-Nomination</h4>
+                                        <p className="text-sm text-slate-500 mt-1">
+                                            Allow members to nominate themselves. <span className="font-mono text-xs text-blue-600 bg-blue-50 px-1 rounded ml-1">Ref: Clause 1.4</span>
+                                        </p>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleChange('allow_self_nomination', !formData.allow_self_nomination)}
+                                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-cranberry-500 focus:ring-offset-2 ${formData.allow_self_nomination ? 'bg-cranberry-600' : 'bg-slate-200'}`}
+                                    >
+                                        <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${formData.allow_self_nomination ? 'translate-x-6' : 'translate-x-1'}`} />
+                                    </button>
+                                </div>
+
+                                <div className="flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200">
+                                    <div>
+                                        <h4 className="font-bold text-slate-800">Strict Good Standing Check</h4>
+                                        <p className="text-sm text-slate-500 mt-1">
+                                            Block non-good-standing members from being nominated. <span className="font-mono text-xs text-blue-600 bg-blue-50 px-1 rounded ml-1">Ref: Clause 5.1/6.1</span>
+                                        </p>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleChange('require_good_standing', !formData.require_good_standing)}
+                                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-cranberry-500 focus:ring-offset-2 ${formData.require_good_standing ? 'bg-cranberry-600' : 'bg-slate-200'}`}
+                                    >
+                                        <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${formData.require_good_standing ? 'translate-x-6' : 'translate-x-1'}`} />
                                     </button>
                                 </div>
                             </div>

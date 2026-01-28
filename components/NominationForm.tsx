@@ -113,19 +113,21 @@ export const NominationForm: React.FC<NominationFormProps> = ({ onClose, members
             <div className="space-y-6">
               <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-100">
                 <label className="text-sm font-bold text-slate-700">Who are you nominating?</label>
-                <div className="flex items-center space-x-2.5">
-                  <div className="relative flex items-center">
-                    <input
-                      type="checkbox"
-                      id="selfNom"
-                      checked={isSelfNom}
-                      onChange={(e) => setIsSelfNom(e.target.checked)}
-                      className="peer h-5 w-5 cursor-pointer appearance-none rounded-md border-2 border-slate-300 transition-all checked:border-cranberry-600 checked:bg-cranberry-600 hover:border-cranberry-400"
-                    />
-                    <CheckCircle className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 transition-opacity peer-checked:opacity-100" size={12} />
+                {(settings?.allow_self_nomination ?? true) && (
+                  <div className="flex items-center space-x-2.5">
+                    <div className="relative flex items-center">
+                      <input
+                        type="checkbox"
+                        id="selfNom"
+                        checked={isSelfNom}
+                        onChange={(e) => setIsSelfNom(e.target.checked)}
+                        className="peer h-5 w-5 cursor-pointer appearance-none rounded-md border-2 border-slate-300 transition-all checked:border-cranberry-600 checked:bg-cranberry-600 hover:border-cranberry-400"
+                      />
+                      <CheckCircle className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 transition-opacity peer-checked:opacity-100" size={12} />
+                    </div>
+                    <label htmlFor="selfNom" className="text-xs text-slate-600 cursor-pointer font-bold uppercase tracking-wide select-none">Self-nominate</label>
                   </div>
-                  <label htmlFor="selfNom" className="text-xs text-slate-600 cursor-pointer font-bold uppercase tracking-wide select-none">Self-nominate</label>
-                </div>
+                )}
               </div>
 
               {!isSelfNom ? (
@@ -146,14 +148,19 @@ export const NominationForm: React.FC<NominationFormProps> = ({ onClose, members
                       const existingNom = nominations.find(n => n.nomineeId === m.id && n.reviewStatus !== 'REJECTED');
                       const isRestricted = (settings?.limit_one_position ?? true) && existingNom && existingNom.positionId !== selectedPositionId;
 
+                      // Check Good Standing if required
+                      const isGoodStandingIssue = (settings?.require_good_standing ?? true) && !m.isGoodStanding;
+
+                      const isDisabled = !!isRestricted || isGoodStandingIssue;
+
                       return (
                         <button
                           key={m.id}
-                          onClick={() => !isRestricted && setSelectedNomineeId(m.id)}
-                          disabled={!!isRestricted}
+                          onClick={() => !isDisabled && setSelectedNomineeId(m.id)}
+                          disabled={isDisabled}
                           className={`w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all ${selectedNomineeId === m.id
                             ? 'border-cranberry-500 bg-cranberry-50 shadow-sm'
-                            : isRestricted
+                            : isDisabled
                               ? 'border-slate-100 bg-slate-50 opacity-60 cursor-not-allowed'
                               : 'border-transparent hover:bg-slate-50'
                             }`}
@@ -162,7 +169,10 @@ export const NominationForm: React.FC<NominationFormProps> = ({ onClose, members
                             <span className={`text-sm font-bold ${selectedNomineeId === m.id ? 'text-cranberry-900' : 'text-slate-700'}`}>{m.name}</span>
                             <span className={`text-[10px] font-mono ${selectedNomineeId === m.id ? 'text-cranberry-700' : 'text-slate-400'}`}>ID: {m.rotaryId}</span>
                             {isRestricted && (
-                              <span className="text-[10px] text-amber-600 font-bold mt-1">Already nominated for another position</span>
+                              <span className="text-[10px] text-amber-600 font-bold mt-1 block">Already nominated for another position</span>
+                            )}
+                            {isGoodStandingIssue && (
+                              <span className="text-[10px] text-red-500 font-bold mt-1 block">Not in Good Standing</span>
                             )}
                           </div>
                           {selectedNomineeId === m.id && <CheckCircle size={18} className="text-cranberry-600" />}

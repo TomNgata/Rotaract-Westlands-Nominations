@@ -132,14 +132,23 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({
         // Default to true (2 nominations) if settings not loaded, or use setting
         const threshold = (settings?.require_two_seconds ?? true) ? 2 : 1;
         const isOriginallyQualified = count >= threshold;
-        const isDisqualified = disqualifiedCandidates.has(`${entry.member.id}-${posId}`);
+
+        // Auto-disqualify if not good standing and setting is enabled
+        const isGoodStanding = entry.member.isGoodStanding;
+        const isGoodStandingRequired = settings?.require_good_standing ?? true;
+        const isAutoDisqualified = isGoodStandingRequired && !isGoodStanding;
+
+        const isManuallyDisqualified = disqualifiedCandidates.has(`${entry.member.id}-${posId}`);
+        const isDisqualified = isManuallyDisqualified || isAutoDisqualified;
+
         return {
           id: `${entry.member.id}-${posId}`,
           member: entry.member,
           position: pos,
           count,
           isOriginallyQualified,
-          status: isDisqualified ? 'DISQUALIFIED' : (isOriginallyQualified ? 'QUALIFIED' : 'INSUFFICIENT_NOMS')
+          status: isDisqualified ? 'DISQUALIFIED' : (isOriginallyQualified ? 'QUALIFIED' : 'INSUFFICIENT_NOMS'),
+          isAutoDisqualified // Pass this so we can show why (optional, requires type update if used in UI)
         };
       });
     });
@@ -663,8 +672,8 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({
                 Tracking View
               </button>
               <button
-                onClick={() => setActiveTab('candidates')}
-                className={`pb-2 px-4 font-bold border-b-2 transition-colors ${activeTab === 'candidates' ? 'border-slate-800 text-slate-800' : 'border-transparent text-slate-400 hover:text-slate-600'}`}
+                onClick={() => setActiveTab('CANDIDATES')}
+                className={`pb-2 px-4 font-bold border-b-2 transition-colors ${activeTab === 'CANDIDATES' ? 'border-slate-800 text-slate-800' : 'border-transparent text-slate-400 hover:text-slate-600'}`}
               >
                 Candidate Status
               </button>

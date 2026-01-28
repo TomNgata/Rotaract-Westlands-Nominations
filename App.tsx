@@ -7,7 +7,7 @@ import { NominationForm } from './components/NominationForm';
 import { CommitteePortal } from './components/CommitteePortal';
 import { MyCandidacy } from './components/MyCandidacy';
 import { POSITIONS, MOCK_MEMBERS, ELECTION_SCHEDULE } from './constants';
-import { Nomination, Member, CandidacyResponse, Vote } from './types';
+import { Nomination, Member, CandidacyResponse, Vote, ElectionSettings } from './types';
 import { BallotBox } from './components/BallotBox';
 import { TallyingStation } from './components/TallyingStation';
 import { ElectionsSetup } from './components/ElectionsSetup';
@@ -118,7 +118,9 @@ export default function App() {
             voting_start: settingsData.voting_start,
             voting_end: settingsData.voting_end,
             require_two_seconds: settingsData.require_two_seconds ?? true,
-            limit_one_position: settingsData.limit_one_position ?? true
+            limit_one_position: settingsData.limit_one_position ?? true,
+            allow_self_nomination: settingsData.allow_self_nomination ?? true,
+            require_good_standing: settingsData.require_good_standing ?? true
           });
         }
 

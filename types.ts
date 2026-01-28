@@ -63,4 +63,14 @@ export interface ElectionSettings {
   voting_end: string;
   require_two_seconds: boolean;
   limit_one_position: boolean;
+  allow_self_nomination: boolean;
+  require_good_standing: boolean;
+}
+
+export interface Vote {
+  id: string;
+  voterId: string;
+  candidateId: string;
+  positionId: string;
+  timestamp: number;
 }
