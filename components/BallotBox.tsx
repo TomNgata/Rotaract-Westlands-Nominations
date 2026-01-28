@@ -70,20 +70,21 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
                     const isUnopposed = acceptedCandidates.length === 1 && activeCandidatesCount === 1;
 
                     return (
-                        <div key={pos.id} className="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
-                            <h3 className="text-xl font-bold text-slate-200 mb-2">{pos.title}</h3>
+
+                        <div key={pos.id} className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                            <h3 className="text-xl font-bold text-slate-900 mb-2">{pos.title}</h3>
                             <p className="text-sm text-slate-500 mb-4">{pos.description}</p>
 
                             {isUnopposed && acceptedCandidates.length > 0 ? (
-                                <div className="bg-emerald-900/10 border border-emerald-500/30 rounded-xl p-6 flex flex-col items-center text-center">
-                                    <div className="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mb-4">
+                                <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-6 flex flex-col items-center text-center">
+                                    <div className="w-16 h-16 bg-white text-emerald-600 border border-emerald-100 rounded-full flex items-center justify-center mb-4 shadow-sm">
                                         <Trophy size={32} />
                                     </div>
-                                    <h4 className="text-xl font-bold text-white">{acceptedCandidates[0].name}</h4>
-                                    <p className="text-emerald-400 font-bold text-sm uppercase tracking-widest mt-1 mb-2">Elected Unopposed</p>
-                                    <p className="text-slate-400 text-sm max-w-md">
+                                    <h4 className="text-xl font-bold text-slate-900">{acceptedCandidates[0].name}</h4>
+                                    <p className="text-emerald-600 font-bold text-sm uppercase tracking-widest mt-1 mb-2">Elected Unopposed</p>
+                                    <p className="text-slate-500 text-sm max-w-md">
                                         As the sole candidate accepting nomination for this position,
-                                        {acceptedCandidates[0].name} is declared elected unopposed.
+                                        <span className="font-bold text-slate-900"> {acceptedCandidates[0].name}</span> is declared elected unopposed.
                                         No voting is required for this docket.
                                     </p>
                                 </div>
@@ -98,17 +99,17 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
                                                     onClick={() => handleSelect(pos.id, cand.id)}
                                                     className={`cursor-pointer relative flex items-center p-4 rounded-xl border-2 transition-all
                                                         ${isSelected
-                                                            ? 'bg-cranberry-900/20 border-cranberry-500 shadow-lg shadow-cranberry-900/10'
-                                                            : 'bg-slate-900 border-slate-800 hover:border-slate-600 hover:bg-slate-800'}
+                                                            ? 'bg-cranberry-50 border-cranberry-500 shadow-md'
+                                                            : 'bg-slate-50 border-slate-200 hover:border-slate-300 hover:bg-slate-100'}
                                                     `}
                                                 >
                                                     <div className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold mr-4 shrink-0
-                                                        ${isSelected ? 'bg-cranberry-600 text-white' : 'bg-slate-800 text-slate-500 border border-slate-700'}
+                                                        ${isSelected ? 'bg-cranberry-600 text-white' : 'bg-white text-slate-500 border border-slate-200 shadow-sm'}
                                                     `}>
                                                         {cand.name.charAt(0)}
                                                     </div>
                                                     <div>
-                                                        <h4 className={`font-bold ${isSelected ? 'text-white' : 'text-slate-300'}`}>{cand.name}</h4>
+                                                        <h4 className={`font-bold ${isSelected ? 'text-cranberry-900' : 'text-slate-900'}`}>{cand.name}</h4>
                                                         <p className="text-xs text-slate-500">Rotary ID: {cand.rotaryId}</p>
                                                     </div>
                                                     {isSelected && (
@@ -121,7 +122,7 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
                                         })}
                                     </div>
                                 ) : (
-                                    <div className="p-4 bg-slate-900/50 rounded-lg border border-slate-800 border-dashed text-slate-500 text-sm italic">
+                                    <div className="p-4 bg-slate-50 rounded-lg border border-slate-200 border-dashed text-slate-500 text-sm italic">
                                         No qualified candidates on the ballot for this position.
                                     </div>
                                 )
@@ -135,16 +136,16 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
 
     const renderReview = () => (
         <div className="space-y-6 animate-in fade-in duration-500">
-            <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-8 text-center">
+            <div className="bg-white border border-slate-200 rounded-xl p-8 text-center shadow-sm">
                 <ShieldCheck size={48} className="mx-auto text-emerald-500 mb-4" />
-                <h2 className="text-2xl font-bold text-white mb-2">Confirm Your Votes</h2>
-                <p className="text-slate-400 max-w-lg mx-auto">
+                <h2 className="text-2xl font-bold text-slate-900 mb-2">Confirm Your Votes</h2>
+                <p className="text-slate-500 max-w-lg mx-auto">
                     Please review your selections carefully. Once submitted, your vote is final and cannot be changed.
                 </p>
             </div>
 
-            <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
-                <div className="divide-y divide-slate-800">
+            <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                <div className="divide-y divide-slate-100">
                     {positions.map(p => {
                         // Calculate Unopposed status again for display
                         const activeCandidatesCount = nominations.filter(n =>
@@ -168,7 +169,7 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
                                         const selectedId = votes[p.id];
                                         const selectedCand = members.find(m => m.id === selectedId);
                                         return (
-                                            <span className={`font-mono text-sm ${selectedCand ? 'text-white font-bold' : 'text-slate-500 italic'}`}>
+                                            <span className={`font-mono text-sm ${selectedCand ? 'text-slate-900 font-bold' : 'text-slate-400 italic'}`}>
                                                 {selectedCand ? selectedCand.name : 'No Selection'}
                                             </span>
                                         );
@@ -183,7 +184,7 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
             <div className="flex justify-between pt-4">
                 <button
                     onClick={() => setStep('VOTE')}
-                    className="px-6 py-2 rounded-lg font-bold text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+                    className="px-6 py-2 rounded-lg font-bold text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-all"
                 >
                     Back to Ballot
                 </button>
@@ -221,10 +222,10 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
     return (
         <div className="space-y-12 pb-20">
             <div className="text-center space-y-4">
-                <h2 className="text-4xl font-heading font-black text-white tracking-tight">
+                <h2 className="text-4xl font-heading font-black text-slate-900 tracking-tight">
                     Official Ballot Paper
                 </h2>
-                <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+                <p className="text-slate-500 text-lg max-w-2xl mx-auto">
                     Please select your preferred candidate for each position below.
                     You must verify your selection before final submission.
                 </p>
@@ -232,17 +233,17 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
 
             <div className="space-y-16">
                 <div>
-                    <h2 className="text-2xl font-bold text-cranberry-400 mb-6 border-b border-slate-800 pb-2">Executive Board</h2>
+                    <h2 className="text-2xl font-bold text-cranberry-600 mb-6 border-b border-slate-200 pb-2">Executive Board</h2>
                     {renderPositionGroup(cat => cat === PositionCategory.EXECUTIVE)}
                 </div>
 
                 <div>
-                    <h2 className="text-2xl font-bold text-cranberry-400 mb-6 border-b border-slate-800 pb-2">Directors</h2>
+                    <h2 className="text-2xl font-bold text-cranberry-600 mb-6 border-b border-slate-200 pb-2">Directors</h2>
                     {renderPositionGroup(cat => cat === PositionCategory.DIRECTOR)}
                 </div>
 
                 <div>
-                    <h2 className="text-2xl font-bold text-cranberry-400 mb-6 border-b border-slate-800 pb-2">Succession</h2>
+                    <h2 className="text-2xl font-bold text-cranberry-600 mb-6 border-b border-slate-200 pb-2">Succession</h2>
                     {renderPositionGroup(cat => cat === PositionCategory.SUCCESSION)}
                 </div>
             </div>
@@ -251,10 +252,10 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
                 <button
                     onClick={() => setStep('REVIEW')}
                     disabled={!isComplete}
-                    className={`pointer-events-auto px-8 py-4 rounded-full font-bold text-lg shadow-2xl transition-all transform hover:-translate-y-1
+                    className={`pointer-events-auto px-8 py-4 rounded-full font-bold text-lg shadow-xl transition-all transform hover:-translate-y-1
                         ${isComplete
-                            ? 'bg-cranberry-600 text-white shadow-cranberry-900/50 hover:bg-cranberry-500'
-                            : 'bg-slate-800 text-slate-500 cursor-not-allowed'}
+                            ? 'bg-cranberry-600 text-white shadow-cranberry-600/30 hover:bg-cranberry-500'
+                            : 'bg-slate-200 text-slate-400 cursor-not-allowed'}
                     `}
                 >
                     {isComplete ? 'Review Selections' : 'Complete All Selections'}
