@@ -234,6 +234,7 @@ export default function App() {
             members={members}
             onAddNomination={() => setShowNominationModal(true)}
             settings={electionSettings}
+            onVote={() => setActiveTab('vote')}
           />
         );
       case 'nominations':

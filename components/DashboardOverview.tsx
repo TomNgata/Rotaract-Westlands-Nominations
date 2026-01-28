@@ -16,12 +16,16 @@ import {
 import { Nomination, Position, Member, DashboardStats } from '../types';
 import { VotingCountdown } from './VotingCountdown';
 import { NominationTimer } from './NominationTimer';
+import { VOTING_SCHEDULE } from '../constants';
+import { ElectionSettings } from '../types';
 
 interface DashboardOverviewProps {
   nominations: Nomination[];
   positions: Position[];
   members: Member[];
   onAddNomination: () => void;
+  onVote: () => void;
+  settings: ElectionSettings | null;
 }
 
 
@@ -45,7 +49,7 @@ const StatCard: React.FC<{ title: string; value: string | number; icon: React.Re
   </div>
 );
 
-export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ nominations, positions, members, onAddNomination }) => {
+export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ nominations, positions, members, onAddNomination, onVote, settings }) => {
 
   const stats: DashboardStats = useMemo(() => {
     const totalMembers = members.length;
@@ -89,12 +93,36 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ nomination
           <h2 className="text-3xl font-heading font-bold italic text-cranberry-600">Dashboard Overview</h2>
           <p className="text-sm text-slate-500 mt-1 max-w-xl">Real-time status of the Rotary Year 2026/2027 board nominations process.</p>
         </div>
-        <button
-          onClick={onAddNomination}
-          className={`px-6 py-3 rounded-lg font-bold transition-all shadow-lg inline-flex items-center justify-center space-x-2 group bg-slate-200 text-slate-400 cursor-not-allowed shadow-none`}
-        >
-          <span>Nominations Closed</span>
-        </button>
+        {(() => {
+          const now = new Date().getTime();
+          const openDateStr = settings?.voting_start || VOTING_SCHEDULE.OPEN_DATE;
+          const closeDateStr = settings?.voting_end || VOTING_SCHEDULE.CLOSE_DATE;
+          const openTime = new Date(openDateStr).getTime();
+          const closeTime = new Date(closeDateStr).getTime();
+
+          const isVotingActive = now >= openTime && now < closeTime;
+
+          if (isVotingActive) {
+            return (
+              <button
+                onClick={onVote}
+                className="px-6 py-3 rounded-lg font-bold transition-all shadow-lg inline-flex items-center justify-center space-x-2 group bg-emerald-600 text-white hover:bg-emerald-500 hover:shadow-emerald-500/30 animate-pulse"
+              >
+                <span>Vote Now</span>
+                <ChevronRight size={18} />
+              </button>
+            );
+          }
+
+          return (
+            <button
+              onClick={onAddNomination}
+              className={`px-6 py-3 rounded-lg font-bold transition-all shadow-lg inline-flex items-center justify-center space-x-2 group bg-slate-200 text-slate-400 cursor-not-allowed shadow-none`}
+            >
+              <span>Nominations Closed</span>
+            </button>
+          );
+        })()}
       </div>
 
       <VotingCountdown />
