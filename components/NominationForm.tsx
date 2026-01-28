@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { X, Search, Info, CheckCircle, Loader2 } from 'lucide-react';
-import { Member, Position, Nomination } from '../types';
+import { Member, Position, Nomination, ElectionSettings } from '../types';
 
 interface NominationFormProps {
   onClose: () => void;
@@ -9,9 +9,11 @@ interface NominationFormProps {
   positions: Position[];
   onSubmit: (nomination: Partial<Nomination>) => void;
   currentUser: Member;
+  nominations: Nomination[];
+  settings: ElectionSettings | null;
 }
 
-export const NominationForm: React.FC<NominationFormProps> = ({ onClose, members, positions, onSubmit, currentUser }) => {
+export const NominationForm: React.FC<NominationFormProps> = ({ onClose, members, positions, onSubmit, currentUser, nominations, settings }) => {
   const [step, setStep] = useState(1);
   const [selectedPositionId, setSelectedPositionId] = useState('');
   const [selectedNomineeId, setSelectedNomineeId] = useState('');
@@ -139,22 +141,34 @@ export const NominationForm: React.FC<NominationFormProps> = ({ onClose, members
                     />
                   </div>
                   <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
-                    {filteredMembers.map(m => (
-                      <button
-                        key={m.id}
-                        onClick={() => setSelectedNomineeId(m.id)}
-                        className={`w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all ${selectedNomineeId === m.id
-                          ? 'border-cranberry-500 bg-cranberry-50 shadow-sm'
-                          : 'border-transparent hover:bg-slate-50'
-                          }`}
-                      >
-                        <div className="flex flex-col text-left">
-                          <span className={`text-sm font-bold ${selectedNomineeId === m.id ? 'text-cranberry-900' : 'text-slate-700'}`}>{m.name}</span>
-                          <span className={`text-[10px] font-mono ${selectedNomineeId === m.id ? 'text-cranberry-700' : 'text-slate-400'}`}>ID: {m.rotaryId}</span>
-                        </div>
-                        {selectedNomineeId === m.id && <CheckCircle size={18} className="text-cranberry-600" />}
-                      </button>
-                    ))}
+                    {filteredMembers.map(m => {
+                      // Check if member is already nominated for a DIFFERENT position
+                      const existingNom = nominations.find(n => n.nomineeId === m.id && n.reviewStatus !== 'REJECTED');
+                      const isRestricted = (settings?.limit_one_position ?? true) && existingNom && existingNom.positionId !== selectedPositionId;
+
+                      return (
+                        <button
+                          key={m.id}
+                          onClick={() => !isRestricted && setSelectedNomineeId(m.id)}
+                          disabled={!!isRestricted}
+                          className={`w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all ${selectedNomineeId === m.id
+                            ? 'border-cranberry-500 bg-cranberry-50 shadow-sm'
+                            : isRestricted
+                              ? 'border-slate-100 bg-slate-50 opacity-60 cursor-not-allowed'
+                              : 'border-transparent hover:bg-slate-50'
+                            }`}
+                        >
+                          <div className="flex flex-col text-left">
+                            <span className={`text-sm font-bold ${selectedNomineeId === m.id ? 'text-cranberry-900' : 'text-slate-700'}`}>{m.name}</span>
+                            <span className={`text-[10px] font-mono ${selectedNomineeId === m.id ? 'text-cranberry-700' : 'text-slate-400'}`}>ID: {m.rotaryId}</span>
+                            {isRestricted && (
+                              <span className="text-[10px] text-amber-600 font-bold mt-1">Already nominated for another position</span>
+                            )}
+                          </div>
+                          {selectedNomineeId === m.id && <CheckCircle size={18} className="text-cranberry-600" />}
+                        </button>
+                      )
+                    })}
                     {filteredMembers.length === 0 && (
                       <div className="text-center py-10">
                         <p className="text-sm text-slate-400 italic">No matching members found.</p>

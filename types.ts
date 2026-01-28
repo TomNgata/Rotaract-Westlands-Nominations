@@ -61,4 +61,6 @@ export interface ElectionSettings {
   nomination_end: string;
   voting_start: string;
   voting_end: string;
+  require_two_seconds: boolean;
+  limit_one_position: boolean;
 }

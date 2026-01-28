@@ -10,6 +10,7 @@ import { POSITIONS, MOCK_MEMBERS, ELECTION_SCHEDULE } from './constants';
 import { Nomination, Member, CandidacyResponse, Vote } from './types';
 import { BallotBox } from './components/BallotBox';
 import { TallyingStation } from './components/TallyingStation';
+import { ElectionsSetup } from './components/ElectionsSetup';
 import { CheckCircle } from 'lucide-react';
 
 import { supabase } from './services/supabaseClient';
@@ -115,7 +116,9 @@ export default function App() {
             nomination_start: settingsData.nomination_start,
             nomination_end: settingsData.nomination_end,
             voting_start: settingsData.voting_start,
-            voting_end: settingsData.voting_end
+            voting_end: settingsData.voting_end,
+            require_two_seconds: settingsData.require_two_seconds ?? true,
+            limit_one_position: settingsData.limit_one_position ?? true
           });
         }
 
@@ -322,6 +325,14 @@ export default function App() {
             </div>
           </div>
         );
+      case 'setup':
+        if (currentUser.role !== 'COMMITTEE') return <div className="p-10 text-center text-red-400 font-bold">Unauthorized Access</div>;
+        return (
+          <ElectionsSetup
+            settings={electionSettings}
+            onUpdate={setElectionSettings}
+          />
+        );
       case 'administration':
         if (currentUser.role !== 'COMMITTEE') return <div className="p-10 text-center text-red-400 font-bold">Unauthorized Access</div>;
         return (
@@ -413,6 +424,8 @@ export default function App() {
           positions={POSITIONS}
           currentUser={currentUser}
           onSubmit={handleAddNomination}
+          nominations={nominations}
+          settings={electionSettings}
         />
       )}
     </Layout>

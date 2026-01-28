@@ -134,6 +134,14 @@ export const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTa
 
           <div className="mt-8 space-y-1">
             <div className="px-4 pb-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Administration</div>
+            {isCommittee && (
+              <NavItem
+                icon={<Settings size={18} />}
+                label="Elections Set-Up"
+                isActive={activeTab === 'setup'}
+                onClick={() => { setActiveTab('setup'); setIsSidebarOpen(false); }}
+              />
+            )}
             <NavItem
               icon={<ShieldCheck size={18} />}
               label="Committee Portal"
