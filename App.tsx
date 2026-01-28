@@ -388,6 +388,7 @@ export default function App() {
             positions={POSITIONS}
             members={members}
             candidacyResponses={candidacyResponses}
+            nominations={nominations}
             onVoteComplete={() => {
               // Re-fetch votes or optimistic update
               alert("Vote submitted successfully!");
@@ -402,6 +403,7 @@ export default function App() {
             members={members}
             votes={votes}
             candidacyResponses={candidacyResponses}
+            nominations={nominations}
           />
         );
       default:
