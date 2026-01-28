@@ -67,8 +67,12 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
                 (!candidacyResponses.find(r => r.memberId === n.nomineeId && r.positionId === pos.id) ||
                     candidacyResponses.find(r => r.memberId === n.nomineeId && r.positionId === pos.id)?.status !== 'DECLINED')
             ).length;
-            const isUnopposed = acceptedCandidates.length === 1 && activeCandidatesCount === 1;
+            // Relaxed Logic: If there is exactly 1 accepted candidate, they are unopposed.
+            // We ignore other "active" candidates who haven't responded or are pending,
+            // based on the user's confirmation that all responses are in.
+            const isUnopposed = acceptedCandidates.length === 1;
 
+            // Only require votes for positions that are NOT Unopposed and have available candidates
             return !isUnopposed && candidates.length > 0;
         });
 
@@ -91,9 +95,8 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
                         (!candidacyResponses.find(r => r.memberId === n.nomineeId && r.positionId === pos.id) ||
                             candidacyResponses.find(r => r.memberId === n.nomineeId && r.positionId === pos.id)?.status !== 'DECLINED')
                     ).length;
-
-                    // Strict Check: exactly 1 accepted AND total active candidates is also 1.
-                    const isUnopposed = acceptedCandidates.length === 1 && activeCandidatesCount === 1;
+                    // Relaxed Logic: If exactly 1 accepted candidate, declare Unopposed.
+                    const isUnopposed = acceptedCandidates.length === 1;
 
                     return (
 
@@ -174,14 +177,8 @@ export const BallotBox: React.FC<BallotBoxProps> = ({ currentUser, positions, me
                 <div className="divide-y divide-slate-100">
                     {positions.map(p => {
                         // Calculate Unopposed status again for display
-                        const activeCandidatesCount = nominations.filter(n =>
-                            n.positionId === p.id &&
-                            n.reviewStatus === 'APPROVED' &&
-                            (!candidacyResponses.find(r => r.memberId === n.nomineeId && r.positionId === p.id) ||
-                                candidacyResponses.find(r => r.memberId === n.nomineeId && r.positionId === p.id)?.status !== 'DECLINED')
-                        ).length;
                         const acceptedCandidates = candidatesByPosition[p.id] || [];
-                        const isUnopposed = acceptedCandidates.length === 1 && activeCandidatesCount === 1;
+                        const isUnopposed = acceptedCandidates.length === 1;
 
                         return (
                             <div key={p.id} className="p-4 flex items-center justify-between">

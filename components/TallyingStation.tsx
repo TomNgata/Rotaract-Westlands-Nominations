@@ -50,10 +50,8 @@ export const TallyingStation: React.FC<TallyingStationProps> = ({ positions, mem
                 return !response || response.status !== 'DECLINED';
             }).length;
 
-            // Strict Unopposed Check:
-            // - Exactly 1 Accepted Candidate
-            // - Total Active Candidates is also 1 (meaning no one else is pending or accepted)
-            const isUnopposed = acceptedCandidates.length === 1 && activeCandidatesCount === 1;
+            // Relaxed Logic: Exact matches user request - if 1 accepted, they are unopposed.
+            const isUnopposed = acceptedCandidates.length === 1;
 
             let winner = data.length > 0 ? data[0] : null;
 

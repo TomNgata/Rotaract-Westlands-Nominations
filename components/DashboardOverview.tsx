@@ -95,8 +95,9 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ nomination
         </div>
         {(() => {
           const now = new Date().getTime();
-          const openDateStr = settings?.voting_start || VOTING_SCHEDULE.OPEN_DATE;
-          const closeDateStr = settings?.voting_end || VOTING_SCHEDULE.CLOSE_DATE;
+          // Prioritize local constant for immediate override during active election management
+          const openDateStr = VOTING_SCHEDULE.OPEN_DATE;
+          const closeDateStr = VOTING_SCHEDULE.CLOSE_DATE;
           const openTime = new Date(openDateStr).getTime();
           const closeTime = new Date(closeDateStr).getTime();
 
