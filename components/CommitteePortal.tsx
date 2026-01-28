@@ -30,7 +30,7 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({
   settings,
   onUpdateSettings
 }) => {
-  const [activeTab, setActiveTab] = useState<'NOMINATIONS' | 'CANDIDATES' | 'REPORT' | 'BALLOT_STATUS'>('NOMINATIONS');
+  const [activeTab, setActiveTab] = useState<'NOMINATIONS' | 'CANDIDATES' | 'REPORT' | 'BALLOT_STATUS' | 'SETTINGS'>('NOMINATIONS');
 
   // -- Nominations State --
   const [filter, setFilter] = useState<'ALL' | 'PENDING' | 'APPROVED' | 'REJECTED'>('ALL');
@@ -668,8 +668,8 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({
                 Candidate Status
               </button>
               <button
-                onClick={() => setActiveTab('settings')}
-                className={`pb-2 px-4 font-bold border-b-2 transition-colors ${activeTab === 'settings' ? 'border-slate-800 text-slate-800' : 'border-transparent text-slate-400 hover:text-slate-600'}`}
+                onClick={() => setActiveTab('SETTINGS')}
+                className={`px-4 py-2 font-bold text-sm rounded-md transition-colors ${activeTab === 'SETTINGS' ? 'bg-slate-800 text-white' : 'text-slate-400 hover:text-slate-200'}`}
               >
                 Settings
               </button>
@@ -766,6 +766,10 @@ export const CommitteePortal: React.FC<CommitteePortalProps> = ({
               )}
           </div>
         </div>
+      )}
+
+      {activeTab === 'SETTINGS' && (
+        <AdminConfig settings={settings} onUpdate={onUpdateSettings} />
       )}
     </div>
   );
