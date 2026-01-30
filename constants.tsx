@@ -9,7 +9,7 @@ export const ELECTION_SCHEDULE = {
 
 export const VOTING_SCHEDULE = {
   OPEN_DATE: '2026-01-28T20:30:00+03:00', // Today 8:30pm
-  CLOSE_DATE: '2026-01-30T19:00:00+03:00', // Friday 7pm
+  CLOSE_DATE: '2026-01-30T20:30:00+03:00', // Friday 8.30pm
 };
 
 export const POSITIONS: Position[] = [
